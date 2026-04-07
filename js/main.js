@@ -2,29 +2,310 @@
 // Script principal del proyecto:
 // - Gestiona anuncios accesibles para lectores de pantalla.
 // - Valida formularios de reserva y consulta.
-// - Muestra mensajes de estado con foco programático.
+// - Permite modo oscuro y cambio de idioma ES/EN en todas las paginas.
 
 document.addEventListener('DOMContentLoaded', () => {
     const BOOKING_STORAGE_KEY = 'taxiTransferBookings';
+    const THEME_STORAGE_KEY = 'taxiTheme';
+    const LANG_STORAGE_KEY = 'taxiLang';
 
-    // Referencias a elementos del menú responsive de Bootstrap.
+    const translations = {
+        es: {
+            brand: 'Taxi Transfer Tenerife',
+            'nav.home': 'Inicio',
+            'nav.book': 'Reservar',
+            'nav.manage': 'Mis Reservas',
+            'nav.contact': 'Contacto',
+            'controls.dark': 'Modo oscuro',
+            'controls.light': 'Modo claro',
+            'footer.rights': '\u00A9 2026 Taxi Transfer TFS. Todos los derechos reservados.',
+
+            'home.hero.title': 'Traslados desde el Aeropuerto de Tenerife Sur',
+            'home.hero.subtitle': 'Reserva tu taxi oficial al mejor precio. Viaja seguro y sin esperas a cualquier punto de la isla.',
+            'home.hero.cta': 'Reserva tu traslado ahora',
+            'home.destinations.title': 'Nuestros Destinos Principales',
+            'home.destinations.adeje.title': 'Costa Adeje',
+            'home.destinations.adeje.text': 'Llega a tu hotel en el sur en menos de 20 minutos.',
+            'home.destinations.cristianos.title': 'Los Cristianos',
+            'home.destinations.cristianos.text': 'Traslados directos y confortables a la zona turistica.',
+            'home.destinations.santacruz.title': 'Santa Cruz de Tenerife',
+            'home.destinations.santacruz.text': 'Viaja a la capital o al puerto con total seguridad.',
+
+            'booking.title': 'Solicitud de Reserva',
+            'booking.subtitle': 'Por favor, completa el siguiente formulario para reservar tu traslado en taxi desde el Aeropuerto de Tenerife Sur.',
+            'booking.legend': 'Detalles del Viaje',
+            'booking.fields.name': 'Nombre Completo',
+            'booking.fields.email': 'Correo Electronico',
+            'booking.fields.phone': 'Telefono de Contacto',
+            'booking.fields.origin': 'Lugar de Origen',
+            'booking.fields.destination': 'Lugar de Destino',
+            'booking.fields.date': 'Fecha del Traslado',
+            'booking.fields.time': 'Hora del Traslado',
+            'booking.fields.passengers': 'Numero de Pasajeros',
+            'booking.placeholders.name': 'Ej. Juan Perez',
+            'booking.placeholders.email': 'Ej. juan@email.com',
+            'booking.placeholders.phone': 'Ej. 600123456',
+            'booking.placeholders.destination': 'Ej. Hotel Costa Adeje',
+            'booking.help.name': 'Introduce tu nombre y apellidos.',
+            'booking.help.email': 'Te enviaremos la confirmacion de la reserva a este correo.',
+            'booking.help.phone': 'Incluye tu numero para avisos importantes (solo digitos, sin espacios).',
+            'booking.help.destination': 'Indica el nombre del hotel, municipio o direccion exacta.',
+            'booking.help.date': 'Selecciona el dia previsto para el servicio.',
+            'booking.help.time': 'Indica la hora de recogida o llegada prevista.',
+            'booking.origin.placeholder': 'Selecciona un origen...',
+            'booking.origin.tfs': 'Aeropuerto Tenerife Sur (TFS)',
+            'booking.origin.tfn': 'Aeropuerto Tenerife Norte (TFN)',
+            'booking.origin.gcxo': 'Aeropuerto de La Gomera (GCXO)',
+            'booking.submit': 'Confirmar Reserva',
+
+            'manage.title': 'Mis Reservas',
+            'manage.subtitle': 'Introduce tu codigo de reserva y correo electronico para consultar o gestionar tu viaje.',
+            'manage.fields.code': 'Codigo de Reserva',
+            'manage.fields.email': 'Correo Electronico',
+            'manage.placeholders.code': 'Ej. TX-12345',
+            'manage.placeholders.email': 'correo@ejemplo.com',
+            'manage.submit': 'Buscar Reserva',
+
+            'contact.title': 'Contacto y Soporte',
+            'contact.subtitle': 'Tienes alguna duda o necesitas asistencia con tu reserva? Estamos aqui para ayudarte.',
+            'contact.info.addressLabel': 'Direccion',
+            'contact.info.addressValue': 'Aeropuerto de Tenerife Sur, Granadilla de Abona, 38610',
+            'contact.info.phoneLabel': 'Telefono',
+            'contact.info.emailLabel': 'Email',
+            'contact.form.title': 'Envia un mensaje',
+            'contact.form.name': 'Nombre Completo',
+            'contact.form.email': 'Correo Electronico',
+            'contact.form.emailHelp': 'No compartiremos tu correo con nadie mas.',
+            'contact.form.message': 'Mensaje',
+            'contact.form.submit': 'Enviar Mensaje',
+
+            'announce.nav.expanded': 'Menu de navegacion expandido',
+            'announce.nav.collapsed': 'Menu de navegacion contraido',
+
+            'validation.nameRequired': 'El nombre es obligatorio.',
+            'validation.emailInvalid': 'Introduce un correo electronico valido.',
+            'validation.phoneInvalid': 'Introduce un telefono valido (solo digitos, 9-15 numeros).',
+            'validation.originRequired': 'Selecciona el lugar de origen.',
+            'validation.destinationRequired': 'El destino es obligatorio.',
+            'validation.destinationArea': 'Solo se permiten destinos en Tenerife, Adeje o Arona.',
+            'validation.dateRequired': 'Selecciona la fecha del traslado.',
+            'validation.timeInvalid': 'Selecciona una hora valida para el traslado.',
+            'validation.passengersRange': 'El numero de pasajeros debe estar entre 1 y 8.',
+
+            'status.storageError': 'No se pudo guardar la reserva en este dispositivo. Intentalo de nuevo.',
+            'status.bookingSuccess': 'Reserva realizada con exito. Tu codigo es {code}.',
+            'status.manageMissing': 'Introduce el codigo de reserva y el correo electronico.',
+            'status.manageNotFound': 'No se ha encontrado una reserva con ese codigo y correo electronico.',
+            'status.manageFound': 'Reserva encontrada. Mostrando detalles.',
+
+            'booking.detail.title': 'Reserva {code}',
+            'booking.detail.name': 'Nombre',
+            'booking.detail.email': 'Correo electronico',
+            'booking.detail.phone': 'Telefono',
+            'booking.detail.origin': 'Origen',
+            'booking.detail.destination': 'Destino',
+            'booking.detail.date': 'Fecha',
+            'booking.detail.time': 'Hora',
+            'booking.detail.passengers': 'Pasajeros'
+        },
+        en: {
+            brand: 'Taxi Transfer Tenerife',
+            'nav.home': 'Home',
+            'nav.book': 'Book',
+            'nav.manage': 'My Bookings',
+            'nav.contact': 'Contact',
+            'controls.dark': 'Dark mode',
+            'controls.light': 'Light mode',
+            'footer.rights': '\u00A9 2026 Taxi Transfer TFS. All rights reserved.',
+
+            'home.hero.title': 'Transfers from Tenerife South Airport',
+            'home.hero.subtitle': 'Book your official taxi at the best price. Travel safely and without waiting to any point on the island.',
+            'home.hero.cta': 'Book your transfer now',
+            'home.destinations.title': 'Our Main Destinations',
+            'home.destinations.adeje.title': 'Costa Adeje',
+            'home.destinations.adeje.text': 'Reach your hotel in the south in less than 20 minutes.',
+            'home.destinations.cristianos.title': 'Los Cristianos',
+            'home.destinations.cristianos.text': 'Direct and comfortable transfers to the tourist area.',
+            'home.destinations.santacruz.title': 'Santa Cruz de Tenerife',
+            'home.destinations.santacruz.text': 'Travel to the capital or port with total safety.',
+
+            'booking.title': 'Booking Request',
+            'booking.subtitle': 'Please complete the following form to book your taxi transfer from Tenerife South Airport.',
+            'booking.legend': 'Trip Details',
+            'booking.fields.name': 'Full Name',
+            'booking.fields.email': 'Email Address',
+            'booking.fields.phone': 'Contact Phone',
+            'booking.fields.origin': 'Origin',
+            'booking.fields.destination': 'Destination',
+            'booking.fields.date': 'Transfer Date',
+            'booking.fields.time': 'Transfer Time',
+            'booking.fields.passengers': 'Number of Passengers',
+            'booking.placeholders.name': 'Ex. John Smith',
+            'booking.placeholders.email': 'Ex. john@email.com',
+            'booking.placeholders.phone': 'Ex. 600123456',
+            'booking.placeholders.destination': 'Ex. Costa Adeje Hotel',
+            'booking.help.name': 'Enter your first and last name.',
+            'booking.help.email': 'We will send your booking confirmation to this email.',
+            'booking.help.phone': 'Include your number for important notices (digits only, no spaces).',
+            'booking.help.destination': 'Enter hotel name, municipality, or full address.',
+            'booking.help.date': 'Select the expected service date.',
+            'booking.help.time': 'Enter expected pickup or arrival time.',
+            'booking.origin.placeholder': 'Select an origin...',
+            'booking.origin.tfs': 'Tenerife South Airport (TFS)',
+            'booking.origin.tfn': 'Tenerife North Airport (TFN)',
+            'booking.origin.gcxo': 'La Gomera Airport (GCXO)',
+            'booking.submit': 'Confirm Booking',
+
+            'manage.title': 'My Bookings',
+            'manage.subtitle': 'Enter your booking code and email to view or manage your trip.',
+            'manage.fields.code': 'Booking Code',
+            'manage.fields.email': 'Email Address',
+            'manage.placeholders.code': 'Ex. TX-12345',
+            'manage.placeholders.email': 'email@example.com',
+            'manage.submit': 'Find Booking',
+
+            'contact.title': 'Contact and Support',
+            'contact.subtitle': 'Do you have any questions or need help with your booking? We are here to help.',
+            'contact.info.addressLabel': 'Address',
+            'contact.info.addressValue': 'Tenerife South Airport, Granadilla de Abona, 38610',
+            'contact.info.phoneLabel': 'Phone',
+            'contact.info.emailLabel': 'Email',
+            'contact.form.title': 'Send us a message',
+            'contact.form.name': 'Full Name',
+            'contact.form.email': 'Email Address',
+            'contact.form.emailHelp': 'We will never share your email with anyone else.',
+            'contact.form.message': 'Message',
+            'contact.form.submit': 'Send Message',
+
+            'announce.nav.expanded': 'Navigation menu expanded',
+            'announce.nav.collapsed': 'Navigation menu collapsed',
+
+            'validation.nameRequired': 'Name is required.',
+            'validation.emailInvalid': 'Please enter a valid email address.',
+            'validation.phoneInvalid': 'Please enter a valid phone number (digits only, 9-15 numbers).',
+            'validation.originRequired': 'Please select the origin.',
+            'validation.destinationRequired': 'Destination is required.',
+            'validation.destinationArea': 'Only Tenerife, Adeje or Arona destinations are allowed.',
+            'validation.dateRequired': 'Please select transfer date.',
+            'validation.timeInvalid': 'Please select a valid transfer time.',
+            'validation.passengersRange': 'Number of passengers must be between 1 and 8.',
+
+            'status.storageError': 'Could not save your booking on this device. Please try again.',
+            'status.bookingSuccess': 'Booking created successfully. Your code is {code}.',
+            'status.manageMissing': 'Enter both booking code and email.',
+            'status.manageNotFound': 'No booking was found with that code and email.',
+            'status.manageFound': 'Booking found. Showing details.',
+
+            'booking.detail.title': 'Booking {code}',
+            'booking.detail.name': 'Name',
+            'booking.detail.email': 'Email',
+            'booking.detail.phone': 'Phone',
+            'booking.detail.origin': 'Origin',
+            'booking.detail.destination': 'Destination',
+            'booking.detail.date': 'Date',
+            'booking.detail.time': 'Time',
+            'booking.detail.passengers': 'Passengers'
+        }
+    };
+
+    let currentLang = localStorage.getItem(LANG_STORAGE_KEY) || 'es';
+    if (!translations[currentLang]) {
+        currentLang = 'es';
+    }
+
+    let currentTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+    let lastRenderedBooking = null;
+
+    function t(key, replacements = {}) {
+        const table = translations[currentLang] || translations.es;
+        let text = table[key] || translations.es[key] || key;
+
+        Object.entries(replacements).forEach(([name, value]) => {
+            text = text.replace(`{${name}}`, value);
+        });
+
+        return text;
+    }
+
+    function applyTheme() {
+        document.body.classList.toggle('theme-dark', currentTheme === 'dark');
+
+        const themeButton = document.getElementById('theme-toggle');
+        if (themeButton) {
+            const label = currentTheme === 'dark' ? t('controls.light') : t('controls.dark');
+            const icon = currentTheme === 'dark' ? '☀️' : '🌙';
+            themeButton.innerHTML = `<span class="control-icon" aria-hidden="true">${icon}</span>${label}`;
+            themeButton.setAttribute('aria-label', label);
+        }
+    }
+
+    function applyLanguage() {
+        document.documentElement.setAttribute('lang', currentLang);
+
+        const translatableNodes = document.querySelectorAll('[data-i18n]');
+        translatableNodes.forEach((node) => {
+            const key = node.getAttribute('data-i18n');
+            if (!key) {
+                return;
+            }
+            node.textContent = t(key);
+        });
+
+        const placeholderNodes = document.querySelectorAll('[data-i18n-placeholder]');
+        placeholderNodes.forEach((node) => {
+            const key = node.getAttribute('data-i18n-placeholder');
+            if (!key) {
+                return;
+            }
+            node.setAttribute('placeholder', t(key));
+        });
+
+        const languageButton = document.getElementById('lang-toggle');
+        if (languageButton) {
+            const nextLabel = currentLang === 'es' ? 'EN' : 'ES';
+            const flag = currentLang === 'es' ? '🇬🇧' : '🇪🇸';
+            languageButton.innerHTML = `<span class="control-icon" aria-hidden="true">${flag}</span>${nextLabel}`;
+            languageButton.setAttribute('aria-label', currentLang === 'es' ? 'Switch language to English' : 'Cambiar idioma a espanol');
+        }
+
+        applyTheme();
+
+        const resultContainer = document.getElementById('resultado-reserva');
+        if (lastRenderedBooking && resultContainer) {
+            renderBookingDetails(resultContainer, lastRenderedBooking);
+        }
+    }
+
+    function persistTheme(theme) {
+        currentTheme = theme;
+        localStorage.setItem(THEME_STORAGE_KEY, currentTheme);
+        applyTheme();
+    }
+
+    function persistLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem(LANG_STORAGE_KEY, currentLang);
+        applyLanguage();
+    }
+
+    // Referencias a elementos del menu responsive de Bootstrap.
     const navbarToggler = document.querySelector('.navbar-toggler');
     const navbarCollapse = document.getElementById('navbarNav');
 
-    // Sincroniza aria-expanded con el estado real del menú colapsable.
+    // Sincroniza aria-expanded con el estado real del menu colapsable.
     if (navbarToggler && navbarCollapse) {
         navbarCollapse.addEventListener('shown.bs.collapse', () => {
             navbarToggler.setAttribute('aria-expanded', 'true');
-            announceToScreenReader('Menú de navegación expandido');
+            announceToScreenReader(t('announce.nav.expanded'));
         });
 
         navbarCollapse.addEventListener('hidden.bs.collapse', () => {
             navbarToggler.setAttribute('aria-expanded', 'false');
-            announceToScreenReader('Menú de navegación contraído');
+            announceToScreenReader(t('announce.nav.collapsed'));
         });
     }
 
-    // Crea (si no existe) una región aria-live para anunciar cambios no visuales.
+    // Crea (si no existe) una region aria-live para anunciar cambios no visuales.
     function announceToScreenReader(message) {
         let announcer = document.getElementById('aria-announcer');
 
@@ -33,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
             announcer.id = 'aria-announcer';
             announcer.setAttribute('aria-live', 'polite');
 
-            // Oculta visualmente el nodo sin retirarlo del árbol de accesibilidad.
             announcer.style.position = 'absolute';
             announcer.style.width = '1px';
             announcer.style.height = '1px';
@@ -51,39 +331,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function validateBookingData(data) {
         if (!data.nombre) {
-            return { valid: false, errorMsg: 'El nombre es obligatorio.', invalidField: 'nombre' };
+            return { valid: false, errorMsg: t('validation.nameRequired'), invalidField: 'nombre' };
         }
 
         if (!data.email || !/^\S+@\S+\.\S+$/.test(data.email)) {
-            return { valid: false, errorMsg: 'Introduce un correo electrónico válido.', invalidField: 'email' };
+            return { valid: false, errorMsg: t('validation.emailInvalid'), invalidField: 'email' };
         }
 
         if (!data.telefono || !/^\d{9,15}$/.test(data.telefono)) {
-            return { valid: false, errorMsg: 'Introduce un teléfono válido (solo dígitos, 9-15 números).', invalidField: 'telefono' };
+            return { valid: false, errorMsg: t('validation.phoneInvalid'), invalidField: 'telefono' };
         }
 
         if (!data.origen) {
-            return { valid: false, errorMsg: 'Selecciona el lugar de origen.', invalidField: 'origen' };
+            return { valid: false, errorMsg: t('validation.originRequired'), invalidField: 'origen' };
         }
 
         if (!data.destino) {
-            return { valid: false, errorMsg: 'El destino es obligatorio.', invalidField: 'destino' };
+            return { valid: false, errorMsg: t('validation.destinationRequired'), invalidField: 'destino' };
         }
 
         if (!/(tenerife|adeje|arona)/i.test(data.destino)) {
-            return { valid: false, errorMsg: 'Solo se permiten destinos en Tenerife, Adeje o Arona.', invalidField: 'destino' };
+            return { valid: false, errorMsg: t('validation.destinationArea'), invalidField: 'destino' };
         }
 
         if (!data.fecha) {
-            return { valid: false, errorMsg: 'Selecciona la fecha del traslado.', invalidField: 'fecha' };
+            return { valid: false, errorMsg: t('validation.dateRequired'), invalidField: 'fecha' };
         }
 
         if (!data.hora || !/^([01]\d|2[0-3]):[0-5]\d$/.test(data.hora)) {
-            return { valid: false, errorMsg: 'Selecciona una hora válida para el traslado.', invalidField: 'hora' };
+            return { valid: false, errorMsg: t('validation.timeInvalid'), invalidField: 'hora' };
         }
 
         if (!data.pasajeros || data.pasajeros < 1 || data.pasajeros > 8) {
-            return { valid: false, errorMsg: 'El número de pasajeros debe estar entre 1 y 8.', invalidField: 'pasajeros' };
+            return { valid: false, errorMsg: t('validation.passengersRange'), invalidField: 'pasajeros' };
         }
 
         return { valid: true, errorMsg: null, invalidField: null };
@@ -161,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return dateString;
         }
 
-        return new Intl.DateTimeFormat('es-ES', {
+        return new Intl.DateTimeFormat(currentLang === 'en' ? 'en-GB' : 'es-ES', {
             day: '2-digit',
             month: 'long',
             year: 'numeric'
@@ -183,18 +463,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        lastRenderedBooking = booking;
+
         container.innerHTML = `
             <article class="card border-success shadow-sm" tabindex="-1">
                 <div class="card-body">
-                    <h2 class="h4 card-title mb-3">Reserva ${escapeHtml(booking.codigo_reserva)}</h2>
-                    <p class="mb-2"><strong>Nombre:</strong> ${escapeHtml(booking.nombre)}</p>
-                    <p class="mb-2"><strong>Correo electrónico:</strong> ${escapeHtml(booking.email)}</p>
-                    <p class="mb-2"><strong>Teléfono:</strong> ${escapeHtml(booking.telefono)}</p>
-                    <p class="mb-2"><strong>Origen:</strong> ${escapeHtml(booking.origen)}</p>
-                    <p class="mb-2"><strong>Destino:</strong> ${escapeHtml(booking.destino)}</p>
-                    <p class="mb-2"><strong>Fecha:</strong> ${escapeHtml(formatBookingDate(booking.fecha))}</p>
-                    <p class="mb-2"><strong>Hora:</strong> ${escapeHtml(formatBookingTime(booking.hora))}</p>
-                    <p class="mb-0"><strong>Pasajeros:</strong> ${escapeHtml(booking.pasajeros)}</p>
+                    <h2 class="h4 card-title mb-3">${escapeHtml(t('booking.detail.title', { code: booking.codigo_reserva }))}</h2>
+                    <p class="mb-2"><strong>${escapeHtml(t('booking.detail.name'))}:</strong> ${escapeHtml(booking.nombre)}</p>
+                    <p class="mb-2"><strong>${escapeHtml(t('booking.detail.email'))}:</strong> ${escapeHtml(booking.email)}</p>
+                    <p class="mb-2"><strong>${escapeHtml(t('booking.detail.phone'))}:</strong> ${escapeHtml(booking.telefono)}</p>
+                    <p class="mb-2"><strong>${escapeHtml(t('booking.detail.origin'))}:</strong> ${escapeHtml(booking.origen)}</p>
+                    <p class="mb-2"><strong>${escapeHtml(t('booking.detail.destination'))}:</strong> ${escapeHtml(booking.destino)}</p>
+                    <p class="mb-2"><strong>${escapeHtml(t('booking.detail.date'))}:</strong> ${escapeHtml(formatBookingDate(booking.fecha))}</p>
+                    <p class="mb-2"><strong>${escapeHtml(t('booking.detail.time'))}:</strong> ${escapeHtml(formatBookingTime(booking.hora))}</p>
+                    <p class="mb-0"><strong>${escapeHtml(t('booking.detail.passengers'))}:</strong> ${escapeHtml(booking.pasajeros)}</p>
                 </div>
             </article>
         `;
@@ -205,8 +487,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Botones de control global (tema e idioma).
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            persistTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+    }
+
+    const langToggle = document.getElementById('lang-toggle');
+    if (langToggle) {
+        langToggle.addEventListener('click', () => {
+            persistLanguage(currentLang === 'es' ? 'en' : 'es');
+        });
+    }
+
     // Formulario de reserva (booking.html).
-    // Se valida secuencialmente y se detiene en el primer error detectado.
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
         bookingForm.addEventListener('submit', function (event) {
@@ -237,13 +533,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const booking = createBookingRecord(formData);
 
                 if (!booking) {
-                    const storageErrorMsg = 'No se pudo guardar la reserva en este dispositivo. Inténtalo de nuevo.';
+                    const storageErrorMsg = t('status.storageError');
                     announceToScreenReader(storageErrorMsg);
                     showFormStatus(bookingForm, storageErrorMsg, false);
                     return;
                 }
 
-                const successMsg = `Reserva realizada con éxito. Tu código es ${booking.codigo_reserva}.`;
+                const successMsg = t('status.bookingSuccess', { code: booking.codigo_reserva });
                 announceToScreenReader(successMsg);
                 showFormStatus(bookingForm, successMsg, true);
                 bookingForm.reset();
@@ -255,8 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Formulario de gestión de reservas (manage-booking.html).
-    // Valida presencia de código y email antes de simular búsqueda.
+    // Formulario de gestion de reservas (manage-booking.html).
     const manageForm = document.getElementById('manage-form');
     if (manageForm) {
         manageForm.addEventListener('submit', function (event) {
@@ -270,7 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!codigo || !email) {
                 valid = false;
-                errorMsg = 'Introduce el código de reserva y el correo electrónico.';
+                errorMsg = t('status.manageMissing');
             }
 
             if (!codigo) {
@@ -291,18 +586,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 ));
 
                 if (!booking) {
-                    errorMsg = 'No se ha encontrado una reserva con ese código y correo electrónico.';
+                    errorMsg = t('status.manageNotFound');
                     announceToScreenReader(errorMsg);
                     showFormStatus(manageForm, errorMsg, false);
 
                     if (resultContainer) {
                         resultContainer.innerHTML = '';
+                        lastRenderedBooking = null;
                     }
 
                     return;
                 }
 
-                const successMsg = 'Reserva encontrada. Mostrando detalles.';
+                const successMsg = t('status.manageFound');
                 announceToScreenReader(successMsg);
                 showFormStatus(manageForm, successMsg, true);
                 renderBookingDetails(resultContainer, booking);
@@ -315,12 +611,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (resultContainer) {
                 resultContainer.innerHTML = '';
+                lastRenderedBooking = null;
             }
         });
     }
 
-    // Inserta o reutiliza un contenedor de estado dentro del formulario.
-    // Además, mueve el foco al mensaje para lectura inmediata por teclado/lector.
     function showFormStatus(form, message, success) {
         let status = form.querySelector('.form-status');
 
@@ -340,4 +635,7 @@ document.addEventListener('DOMContentLoaded', () => {
         status.style.marginTop = '1em';
         status.focus();
     }
+
+    applyLanguage();
+    applyTheme();
 });

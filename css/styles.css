@@ -21,6 +21,10 @@
   --primary-color-dark: #0056b3;
   /* Anillo de foco visible para navegación por teclado */
   --focus-ring-color: #ff9800;
+  --bg-color: #f8f9fa;
+  --text-color: #333;
+  --surface-color: #ffffff;
+  --border-color: #dee2e6;
 }
 
 /*
@@ -32,9 +36,85 @@ body {
   /* Tipografía sans-serif legible y ampliamente soportada */
   font-family: Arial, sans-serif;
   /* Texto principal oscuro para asegurar contraste suficiente */
-  color: #333;
+  color: var(--text-color);
   /* Fondo claro neutro para descanso visual */
-  background-color: #f8f9fa;
+  background-color: var(--bg-color);
+}
+
+.theme-dark {
+  --bg-color: #12161c;
+  --text-color: #e7edf5;
+  --surface-color: #1b222c;
+  --border-color: #2d3744;
+}
+
+.theme-dark .navbar,
+.theme-dark .bg-primary {
+  background-color: #0b3f8a !important;
+}
+
+.theme-dark .bg-light,
+.theme-dark .card,
+.theme-dark .bg-white,
+.theme-dark fieldset,
+.theme-dark .form-control,
+.theme-dark .form-select,
+.theme-dark .form-text,
+.theme-dark .container .border,
+.theme-dark .shadow-sm {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.theme-dark .form-control::placeholder {
+  color: #9fb0c4;
+}
+
+.theme-dark .text-muted,
+.theme-dark .form-text {
+  color: #b5c3d4 !important;
+}
+
+.theme-dark footer,
+.theme-dark .bg-dark {
+  background-color: #0d1117 !important;
+}
+
+.theme-dark a {
+  color: #9ec5fe;
+}
+
+.theme-dark a:hover,
+.theme-dark a:focus {
+  color: #cfe2ff;
+}
+
+.nav-control-btn {
+  min-width: 5.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-control-btn:hover,
+.nav-control-btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.control-icon {
+  margin-right: 0.35rem;
+}
+
+.theme-dark .nav-control-btn {
+  border-color: #9ec5fe;
+}
+
+.theme-dark #lang-toggle {
+  background-color: #dbeafe;
+  color: #0b3f8a;
 }
 
 /*
