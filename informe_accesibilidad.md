@@ -1,162 +1,278 @@
-# Informe de Accesibilidad (Nivel AA)
-**Proyecto:** Prototipo Web para Reserva de Taxis
-**Enfoque:** Frontend (HTML5, CSS3, JavaScript Vanilla, Bootstrap 5)
+# Taxi Transfer Tenerife
+# Informe de accesibilidad
 
+Eduardo Zuniga Alarco  
+Javier Farrona Cabrera  
+Gabriel Budimir Santana  
+Marcos Borges Blanco
 
-## 1. Navbar de Bootstrap (Navegación Global)
+## Generales
 
-### Técnica Aplicada
-Se emplea el componente `navbar` de Bootstrap 5, complementado con atributos ARIA (`aria-label`, `aria-expanded`, `aria-controls`, `aria-current`) y roles semánticos. El botón hamburguesa actualiza dinámicamente `aria-expanded` y anuncia cambios mediante una región `aria-live` para lectores de pantalla.
+La pagina tiene como titulo "Taxi Transfers Tenerife", y utiliza tipografia Arial, sans-serif con tamano base estandar de 1em.
 
-### Ilustración con Código
-```html
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" aria-label="Navegación principal">
-	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menú de navegación">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="navbar-nav ms-auto">
-			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
-			</li>
-			...
-		</ul>
-	</div>
-</nav>
-```
+### 1.1 Contraste
 
-### Gestión de Estado mediante JavaScript
-Al abrir/cerrar el menú móvil, se actualiza `aria-expanded` y se anuncia el estado:
-```js
-navbarCollapse.addEventListener('shown.bs.collapse', () => {
-	navbarToggler.setAttribute('aria-expanded', 'true');
-	announceToScreenReader('Menú de navegación expandido');
-});
-navbarCollapse.addEventListener('hidden.bs.collapse', () => {
-	navbarToggler.setAttribute('aria-expanded', 'false');
-	announceToScreenReader('Menú de navegación contraído');
-});
-```
+Se aplica una combinacion de colores con contraste suficiente para texto y componentes interactivos:
 
-### Adaptación Bootstrap
-- Se añade `aria-label` al `<nav>` y `aria-current` al enlace activo.
-- Se implementa región `aria-live` para feedback accesible.
+- Texto general oscuro sobre fondo claro (`#333` sobre `#f8f9fa`).
+- Botones primarios en azul oscuro (`#0056b3`) con texto blanco.
+- Estados de error en rojo (`#dc3545`) con fondo de apoyo (`#f8d7da`).
+- Estados de exito en verde (`#198754`) con fondo de apoyo (`#e9fbe8`).
 
+Ademas, se ha definido foco visible de alto contraste con borde naranja (`outline: 3px solid #ff9800`) para navegacion por teclado.
 
-## 2. Formulario de Reserva
+### Enlaces incluidos y accesibilidad
 
-### Técnica Aplicada
-Se utilizan etiquetas `<label>` asociadas, campos obligatorios con `aria-required`, descripciones con `aria-describedby` y agrupaciones con `<fieldset>` y `<legend>`. El formulario valida en cliente y muestra mensajes accesibles en una región `aria-live`.
+Se incluyen los siguientes enlaces para ir a distintas partes de la aplicacion:
 
-### Ilustración con Código
-```html
-<form id="booking-form" novalidate aria-label="Formulario de solicitud de reserva">
-	<fieldset>
-		<legend>Detalles del Viaje</legend>
-		<label for="origen">Lugar de Origen *</label>
-		<select id="origen" name="origen" required aria-required="true">...</select>
-		<label for="destino">Lugar de Destino *</label>
-		<input id="destino" name="destino" required aria-required="true" aria-describedby="destino-help">
-		<div id="destino-help">Indica el nombre del hotel...</div>
-		...
-	</fieldset>
-</form>
-```
+- Inicio: lleva a la landing page.
+- Reservar: lleva al formulario de reserva.
+- Mis Reservas: lleva a la gestion de reservas existentes.
+- Contacto: lleva al formulario de contacto.
 
-### Gestión de Estado mediante JavaScript
-Al enviar el formulario, se valida y se anuncia el resultado:
-```js
-bookingForm.addEventListener('submit', function(e) {
-	e.preventDefault();
-	if (valid) {
-		announceToScreenReader('Reserva realizada con éxito.');
-		showFormStatus(bookingForm, 'Reserva realizada con éxito.', true);
-	} else {
-		announceToScreenReader(errorMsg);
-		showFormStatus(bookingForm, errorMsg, false);
-	}
-});
-```
+Estos enlaces pueden ser seleccionados con la tecla Tab. Al recibir foco, muestran un indicador visible de alto contraste para que el usuario identifique claramente su posicion.
 
-### Adaptación Bootstrap
-- Se usa `.form-label`, `.form-control` y `.invalid-feedback`.
-- Se asegura contraste y foco visible vía CSS personalizado.
+### Cambios dinamicos en la pagina y como resolver accesibilidad
 
+Si se producen cambios dinamicos (por ejemplo, apertura/cierre del menu movil, mensajes de error o exito en formularios), se debe:
 
-## 3. Formulario de Gestión de Reservas
+- Anunciar los cambios en una region `aria-live`.
+- Actualizar atributos ARIA de estado (`aria-expanded`) en componentes desplegables.
+- Mover el foco al mensaje relevante cuando sea necesario para que lector de pantalla y teclado reciban feedback inmediato.
 
-### Técnica Aplicada
-Formulario con campos obligatorios, etiquetas asociadas y ayuda contextual. El resultado se muestra en una región `aria-live` para feedback inmediato.
+En el prototipo actual, estas tecnicas ya se aplican mediante un anunciador accesible y mensajes de estado en formularios.
 
-### Ilustración con Código
-```html
-<form id="manage-form" novalidate aria-label="Formulario para buscar reserva existente">
-	<label for="codigo_reserva">Código de Reserva *</label>
-	<input id="codigo_reserva" name="codigo_reserva" required aria-required="true">
-	<label for="email_reserva">Correo Electrónico *</label>
-	<input id="email_reserva" name="email_reserva" required aria-required="true">
-	<button type="submit">Buscar Reserva</button>
-</form>
-<div id="resultado-reserva" aria-live="polite" aria-atomic="true"></div>
-```
+### Idioma preferente y expresiones en otro idioma
 
-### Gestión de Estado mediante JavaScript
-Al enviar, se valida y se anuncia el resultado:
-```js
-manageForm.addEventListener('submit', function(e) {
-	e.preventDefault();
-	if (valid) {
-		announceToScreenReader('Reserva encontrada. Mostrando detalles.');
-		showFormStatus(manageForm, 'Reserva encontrada. Mostrando detalles.', true);
-	} else {
-		announceToScreenReader(errorMsg);
-		showFormStatus(manageForm, errorMsg, false);
-	}
-});
-```
+El idioma preferente de la aplicacion es espanol (`lang="es"` en el documento). Pueden aparecer expresiones en otro idioma en:
 
-### Adaptación Bootstrap
-- Se usa `.form-label`, `.form-control` y ayuda visual.
-- Región de resultado con `aria-live` para accesibilidad.
+- Nombres de marca o terminos comerciales (por ejemplo, "Taxi Transfer", "Taxi Transfers Tenerife").
+- Posibles etiquetas de plataformas externas (por ejemplo, nombres propios de redes sociales).
 
+En caso de incluir fragmentos en otro idioma, se debe marcar el elemento con el atributo `lang` correspondiente para que el lector de pantalla cambie la pronunciacion correctamente.
 
-## 4. Carrusel / Componente Visual (Hero Section)
+### Componentes con cambios dinamicos
 
-### Técnica Aplicada
-Se utiliza una sección `<section>` con encabezado `<h1>` y botón con `aria-label` para navegación accesible. Si se usara carrusel, se añadirían roles y controles ARIA.
+En la aplicacion se producen cambios dinamicos en:
 
-### Ilustración con Código
-```html
-<section class="bg-light py-5 border-bottom">
-	<div class="container text-center">
-		<h1 class="display-4 fw-bold mb-4">Traslados desde el Aeropuerto de Tenerife Sur</h1>
-		<a href="booking.html" class="btn btn-primary btn-lg px-4 me-sm-3" aria-label="Ir al formulario para reservar tu traslado ahora">Reserva tu traslado ahora</a>
-	</div>
-</section>
-```
+- Menu de navegacion responsive (expandido/contraido).
+- Formularios de reserva, gestion y contacto (mensajes de validacion y exito).
 
-### Gestión de Estado mediante JavaScript
-No requiere JS específico, pero si se implementa carrusel, se debe actualizar el slide activo y anunciar cambios con `aria-live`.
+La tecnica aplicada para evitar problemas de accesibilidad es combinar `aria-live` para anuncios con gestion de foco en mensajes de estado, evitando que la informacion dinamica pase desapercibida.
 
-### Adaptación Bootstrap
-- Se asegura contraste, foco visible y uso de roles/ARIA si se usa carrusel.
+### Adaptacion a distintos tamanos de dispositivo
 
-## 5. Pruebas y Verificación de Accesibilidad Extendida
+Decisiones que facilitan la adaptacion responsive:
 
-### 5.1 Validación de campos y escenarios
-Se han realizado pruebas manuales en el formulario de reserva para los siguientes escenarios:
-- Todos los campos vacíos: se muestra mensaje de error accesible y se indica el campo faltante.
-- Email con formato incorrecto: mensaje de error accesible y foco en el campo.
-- Teléfono con menos de 9 o más de 15 dígitos: error accesible.
-- Destino fuera de Tenerife, Adeje o Arona: error accesible y no permite enviar.
-- Número de pasajeros fuera de rango: error accesible.
-- Todos los campos correctos: mensaje de éxito accesible y formulario se resetea.
+- Uso de Bootstrap 5 con sistema de rejilla fluido.
+- Meta viewport configurado para moviles.
+- Menu colapsable para pantallas pequenas.
+- Contenedores y columnas adaptativas en formularios y tarjetas.
+- Areas tactiles suficientes y espaciados consistentes.
 
-### 5.2 Accesibilidad de mensajes de error y éxito
-Los mensajes de error y éxito cumplen:
-- Región `aria-live` con `assertive` para feedback inmediato.
-- Contraste de color suficiente (rojo para error, verde para éxito, fondos diferenciados).
-- El foco se mueve automáticamente al mensaje para usuarios de lector de pantalla.
+## Estructura
 
-### 5.3 Resultados
-Todos los escenarios probados cumplen con los criterios de accesibilidad AA definidos en las especificaciones. El formulario es usable con teclado, los mensajes son anunciados correctamente y el diseño visual respeta el contraste y la visibilidad del foco.
+### Niveles de secciones y orden de lectura
+
+Se utiliza una jerarquia semantica clara para lectores de pantalla:
+
+- `header` para cabecera y navegacion.
+- `main` para contenido principal de cada pagina.
+- `section` para bloques tematicos.
+- `footer` para informacion final.
+- Titulos `h1` para el tema principal y `h2`/`h3` para subsecciones.
+
+Esta estructura permite un orden de lectura coherente y facilita la navegacion por encabezados.
+
+### Tipos de secciones incluidas
+
+La aplicacion incorpora:
+
+- Encabezados globales con menu principal.
+- Contenido principal por pagina (landing, formularios y contacto).
+- Pie de pagina comun con informacion legal.
+
+### Tablas
+
+No se incluyen tablas en el prototipo actual.
+
+### Etiquetado de secciones
+
+El etiquetado se realiza mediante elementos HTML semanticos, encabezados y atributos ARIA cuando aplica:
+
+- `aria-label` en navegacion y formularios para describir su proposito.
+- `aria-current="page"` en el enlace activo del menu.
+- `aria-required`, `aria-describedby` y `aria-invalid` en campos de formulario.
+
+## Navegacion por teclado
+
+### Componentes incluidos para facilitar navegacion
+
+Se han incluido los siguientes componentes y tecnicas:
+
+- Indicador de foco visible en enlaces, botones, inputs, textareas y select.
+- Orden natural de tabulacion basado en HTML semantico.
+- Boton de menu movil operable por teclado.
+- Formularios completamente usables con teclado (relleno, envio, correccion).
+- Mensajes de estado con foco programatico para feedback inmediato.
+
+## 3.2 Componentes especiales
+
+### Desplegables
+
+Se usa el desplegable de navegacion responsive (navbar colapsable). Gestiona estado con `aria-expanded` y anuncia apertura/cierre con `aria-live`.
+
+### Tarjetas
+
+Se usan tarjetas informativas en la landing (destinos principales). Son contenido estatico, sin interacciones complejas, y respetan jerarquia de titulos.
+
+### Carruseles
+
+No se utilizan carruseles en el prototipo actual.
+
+### Pop-ups, tooltips, alertas
+
+No hay tooltips ni modales complejos. Se muestran mensajes dinamicos de error/exito en formularios mediante contenedores de estado accesibles. Este mecanismo cumple la funcion de alerta sin bloquear la interfaz.
+
+### Gestion de foco y riesgo de atrapamiento
+
+Los componentes actuales no generan foco atrapado. El unico caso con gestion especial es la notificacion de estado del formulario, a la que se mueve el foco temporalmente para su lectura.
+
+### Tecnicas para resolver posibles problemas
+
+Se aplican estas tecnicas:
+
+- Uso de regiones `aria-live` para contenido dinamico.
+- Actualizacion de estados ARIA en componentes interactivos.
+- Foco visible y foco programatico controlado.
+- Validacion con mensajes textuales claros (no solo color).
+
+## Alternativas textuales a imagenes, videos y audios
+
+### Imagenes decorativas
+
+Hay una imagen decorativa en la esquina superior izquierda de un taxi al lado del nombre "Taxi Transfer Tenerife". Al ser decorativa, debe marcarse con `alt=""` y/o `aria-hidden="true"` para que no genere ruido en lector de pantalla.
+
+### Imagenes que aportan informacion
+
+Hay imagenes en la esquina superior derecha que indican la pagina de YouTube y la pagina de Twitter de nuestra pagina. Como aportan funcionalidad (enlace a red social), deben tener texto alternativo descriptivo o etiqueta accesible en el enlace (por ejemplo, "Ir a YouTube" y "Ir a Twitter").
+
+### Imagenes de texto
+
+No se contemplan imagenes de texto como mecanismo principal de informacion. El contenido textual relevante se presenta como texto HTML real.
+
+### Graficos
+
+No hay graficos de datos en el prototipo actual.
+
+### Mapas
+
+No hay mapas embebidos en el prototipo actual.
+
+### Tecnicas para eliminar problemas
+
+Tecnicas aplicadas o recomendadas:
+
+- Texto alternativo adecuado segun funcion de la imagen.
+- Marcar como decorativas las imagenes sin valor informativo.
+- Evitar transmitir informacion solo de forma visual.
+- Si hubiera multimedia futura, incluir subtitulado, transcripcion y controles accesibles.
+
+## Audios
+
+### Que audios hay
+
+No hay audios en el prototipo actual.
+
+### Tecnica AA a incorporar
+
+Si se incorporan audios, se debe incluir como minimo:
+
+- Transcripcion textual equivalente.
+- Controles de reproduccion accesibles por teclado.
+- No reproduccion automatica sin control del usuario.
+
+## Videos
+
+### Que videos hay
+
+No hay videos en el prototipo actual.
+
+### Tecnica AA a incorporar
+
+Si se incorporan videos, se debe incluir como minimo:
+
+- Subtitulos sincronizados.
+- Alternativa textual/transcripcion.
+- Controles accesibles de reproduccion y pausa.
+
+## Formularios
+
+### Proposito de cada campo y como lo entiende el usuario
+
+La pagina tiene dos formularios, uno de reserva y otro de contacto.
+
+El formulario de reserva tiene siete campos obligatorios:
+
+- Nombre completo.
+- Correo electronico.
+- Telefono de contacto.
+- Lugar de origen.
+- Lugar de destino.
+- Fecha de traslado.
+- Numero de pasajeros.
+
+Estos campos tienen el proposito de conseguir la informacion del cliente, saber el sitio al que quiere trasladarse y cuando quiere el traslado. Debajo de cada campo hay texto de ayuda que explica su cometido.
+
+Ejemplo:
+
+Correo electronico: "Te enviaremos la confirmacion de la reserva a este correo".
+
+El formulario de contacto tiene tres campos obligatorios:
+
+- Nombre completo.
+- Correo electronico.
+- Mensaje.
+
+Su finalidad es identificar al usuario y disponer de un canal para responder a su consulta.
+
+### Grupos de inputs relacionados
+
+En el formulario de reserva se agrupan campos relacionados dentro de un `fieldset` con `legend` (detalles del viaje), mejorando comprension semantica para tecnologias de apoyo.
+
+### Errores posibles y comunicacion al usuario
+
+El usuario puede cometer distintos errores:
+
+- Dejar campos obligatorios vacios.
+- Introducir correo con formato incorrecto.
+- Introducir telefono invalido.
+- Indicar destino fuera del ambito permitido en la logica actual.
+- Introducir numero de pasajeros fuera de rango.
+
+Para advertir al usuario cuando se detecta un error:
+
+- Se muestra un mensaje dinamico de error en la parte inferior del formulario con estilo rojo.
+- Se anuncia el error por `aria-live`.
+- Se marca el campo con `aria-invalid="true"` y estilo visual de error.
+- Se mueve el foco al mensaje de estado para garantizar percepcion inmediata.
+
+### Compromisos legales o financieros
+
+La informacion enviada en el prototipo actual no implica directamente compromisos legales o financieros en la interfaz implementada. Si en futuras versiones se habilita pago o contratacion vinculante, debera incorporarse paso de confirmacion y posibilidad de revision antes del envio final.
+
+### Tecnica AA incorporada en formularios
+
+Se incorporan tecnicas de accesibilidad nivel AA:
+
+- Etiquetas explicitas (`label`) asociadas a cada control.
+- Indicacion de obligatoriedad y ayudas contextuales.
+- Gestion de errores con texto claro y atributos ARIA.
+- Feedback dinamico con `aria-live` y foco programatico.
+- Navegacion completa por teclado.
+
+## Conclusiones
+
+El prototipo "Taxi Transfer Tenerife" aplica una base solida de accesibilidad alineada con nivel AA en sus componentes principales: estructura semantica, navegacion por teclado, contraste, gestion de foco y comunicacion de estados dinamicos.
+
+Como mejora futura, se recomienda documentar formalmente la verificacion de contraste con herramientas automaticas y mantener el mismo nivel de exigencia al incorporar nuevos componentes (multimedia, mapas o procesos de pago).

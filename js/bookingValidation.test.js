@@ -16,6 +16,7 @@ describe('validateBookingForm', () => {
             origen: 'TFS',
             destino: 'Hotel Tenerife',
             fecha: '2026-03-22',
+            hora: '09:30',
             pasajeros: 2
         };
         // Espera que la validación sea exitosa
@@ -71,6 +72,20 @@ describe('validateBookingForm', () => {
         expect(validateBookingForm(data)).toEqual({ valid: false, errorMsg: 'Selecciona la fecha del traslado.', invalidField: 'fecha' });
     });
 
+    // Test: hora vacía
+    it('detecta hora vacía', () => {
+        const data = { ...base(), hora: '' };
+        // Espera error en el campo hora
+        expect(validateBookingForm(data)).toEqual({ valid: false, errorMsg: 'Selecciona una hora válida para el traslado.', invalidField: 'hora' });
+    });
+
+    // Test: hora con formato inválido
+    it('detecta hora con formato inválido', () => {
+        const data = { ...base(), hora: '25:00' };
+        // Espera error en el campo hora
+        expect(validateBookingForm(data)).toEqual({ valid: false, errorMsg: 'Selecciona una hora válida para el traslado.', invalidField: 'hora' });
+    });
+
     // Test: pasajeros fuera de rango permitido
     it('detecta pasajeros fuera de rango', () => {
         const data = { ...base(), pasajeros: 0 };
@@ -87,6 +102,7 @@ describe('validateBookingForm', () => {
             origen: 'TFS',
             destino: 'Hotel Tenerife',
             fecha: '2026-03-22',
+            hora: '09:30',
             pasajeros: 2
         };
     }

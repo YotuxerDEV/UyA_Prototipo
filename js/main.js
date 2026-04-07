@@ -5,6 +5,8 @@
 // - Muestra mensajes de estado con foco programático.
 
 document.addEventListener('DOMContentLoaded', () => {
+    const BOOKING_STORAGE_KEY = 'taxiTransferBookings';
+
     // Referencias a elementos del menú responsive de Bootstrap.
     const navbarToggler = document.querySelector('.navbar-toggler');
     const navbarCollapse = document.getElementById('navbarNav');
@@ -47,6 +49,162 @@ document.addEventListener('DOMContentLoaded', () => {
         announcer.textContent = message;
     }
 
+    function validateBookingData(data) {
+        if (!data.nombre) {
+            return { valid: false, errorMsg: 'El nombre es obligatorio.', invalidField: 'nombre' };
+        }
+
+        if (!data.email || !/^\S+@\S+\.\S+$/.test(data.email)) {
+            return { valid: false, errorMsg: 'Introduce un correo electrónico válido.', invalidField: 'email' };
+        }
+
+        if (!data.telefono || !/^\d{9,15}$/.test(data.telefono)) {
+            return { valid: false, errorMsg: 'Introduce un teléfono válido (solo dígitos, 9-15 números).', invalidField: 'telefono' };
+        }
+
+        if (!data.origen) {
+            return { valid: false, errorMsg: 'Selecciona el lugar de origen.', invalidField: 'origen' };
+        }
+
+        if (!data.destino) {
+            return { valid: false, errorMsg: 'El destino es obligatorio.', invalidField: 'destino' };
+        }
+
+        if (!/(tenerife|adeje|arona)/i.test(data.destino)) {
+            return { valid: false, errorMsg: 'Solo se permiten destinos en Tenerife, Adeje o Arona.', invalidField: 'destino' };
+        }
+
+        if (!data.fecha) {
+            return { valid: false, errorMsg: 'Selecciona la fecha del traslado.', invalidField: 'fecha' };
+        }
+
+        if (!data.hora || !/^([01]\d|2[0-3]):[0-5]\d$/.test(data.hora)) {
+            return { valid: false, errorMsg: 'Selecciona una hora válida para el traslado.', invalidField: 'hora' };
+        }
+
+        if (!data.pasajeros || data.pasajeros < 1 || data.pasajeros > 8) {
+            return { valid: false, errorMsg: 'El número de pasajeros debe estar entre 1 y 8.', invalidField: 'pasajeros' };
+        }
+
+        return { valid: true, errorMsg: null, invalidField: null };
+    }
+
+    function getStoredBookings() {
+        try {
+            const stored = localStorage.getItem(BOOKING_STORAGE_KEY);
+            const bookings = stored ? JSON.parse(stored) : [];
+            return Array.isArray(bookings) ? bookings : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function saveStoredBookings(bookings) {
+        try {
+            localStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(bookings));
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function generateBookingCode(existingBookings) {
+        let code = '';
+
+        do {
+            code = `TX-${Math.floor(10000 + Math.random() * 90000)}`;
+        } while (existingBookings.some((booking) => booking.codigo_reserva === code));
+
+        return code;
+    }
+
+    function createBookingRecord(data) {
+        const bookings = getStoredBookings();
+        const booking = {
+            codigo_reserva: generateBookingCode(bookings),
+            nombre: data.nombre,
+            email: data.email,
+            telefono: data.telefono,
+            origen: data.origen,
+            destino: data.destino,
+            fecha: data.fecha,
+            hora: data.hora,
+            pasajeros: data.pasajeros
+        };
+
+        bookings.push(booking);
+
+        if (!saveStoredBookings(bookings)) {
+            return null;
+        }
+
+        return booking;
+    }
+
+    function normalizeEmail(email) {
+        return email.trim().toLowerCase();
+    }
+
+    function escapeHtml(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function formatBookingDate(dateString) {
+        const date = new Date(`${dateString}T00:00:00`);
+
+        if (Number.isNaN(date.getTime())) {
+            return dateString;
+        }
+
+        return new Intl.DateTimeFormat('es-ES', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        }).format(date);
+    }
+
+    function formatBookingTime(timeString) {
+        const [hours, minutes] = timeString.split(':');
+
+        if (hours === undefined || minutes === undefined) {
+            return timeString;
+        }
+
+        return `${hours}:${minutes} h`;
+    }
+
+    function renderBookingDetails(container, booking) {
+        if (!container) {
+            return;
+        }
+
+        container.innerHTML = `
+            <article class="card border-success shadow-sm" tabindex="-1">
+                <div class="card-body">
+                    <h2 class="h4 card-title mb-3">Reserva ${escapeHtml(booking.codigo_reserva)}</h2>
+                    <p class="mb-2"><strong>Nombre:</strong> ${escapeHtml(booking.nombre)}</p>
+                    <p class="mb-2"><strong>Correo electrónico:</strong> ${escapeHtml(booking.email)}</p>
+                    <p class="mb-2"><strong>Teléfono:</strong> ${escapeHtml(booking.telefono)}</p>
+                    <p class="mb-2"><strong>Origen:</strong> ${escapeHtml(booking.origen)}</p>
+                    <p class="mb-2"><strong>Destino:</strong> ${escapeHtml(booking.destino)}</p>
+                    <p class="mb-2"><strong>Fecha:</strong> ${escapeHtml(formatBookingDate(booking.fecha))}</p>
+                    <p class="mb-2"><strong>Hora:</strong> ${escapeHtml(formatBookingTime(booking.hora))}</p>
+                    <p class="mb-0"><strong>Pasajeros:</strong> ${escapeHtml(booking.pasajeros)}</p>
+                </div>
+            </article>
+        `;
+
+        const card = container.querySelector('article');
+        if (card) {
+            card.focus();
+        }
+    }
+
     // Formulario de reserva (booking.html).
     // Se valida secuencialmente y se detiene en el primer error detectado.
     const bookingForm = document.getElementById('booking-form');
@@ -54,93 +212,46 @@ document.addEventListener('DOMContentLoaded', () => {
         bookingForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            const nombre = bookingForm.nombre.value.trim();
-            const email = bookingForm.email.value.trim();
-            const telefono = bookingForm.telefono.value.trim();
-            const origen = bookingForm.origen.value;
-            const destino = bookingForm.destino.value.trim();
-            const fecha = bookingForm.fecha.value;
-            const pasajeros = bookingForm.pasajeros.value;
+            const formData = {
+                nombre: bookingForm.nombre.value.trim(),
+                email: normalizeEmail(bookingForm.email.value),
+                telefono: bookingForm.telefono.value.trim(),
+                origen: bookingForm.origen.value,
+                destino: bookingForm.destino.value.trim(),
+                fecha: bookingForm.fecha.value,
+                hora: bookingForm.hora.value,
+                pasajeros: Number.parseInt(bookingForm.pasajeros.value, 10)
+            };
+            const validation = validateBookingData(formData);
+            const fields = ['nombre', 'email', 'telefono', 'origen', 'destino', 'fecha', 'hora', 'pasajeros'];
 
-            let valid = true;
-            let errorMsg = '';
-
-            if (!nombre) {
-                valid = false;
-                errorMsg = 'El nombre es obligatorio.';
-                bookingForm.nombre.setAttribute('aria-invalid', 'true');
-            } else {
-                bookingForm.nombre.removeAttribute('aria-invalid');
-            }
-
-            if (valid && (!email || !/^\S+@\S+\.\S+$/.test(email))) {
-                valid = false;
-                errorMsg = 'Introduce un correo electrónico válido.';
-                bookingForm.email.setAttribute('aria-invalid', 'true');
-            } else {
-                bookingForm.email.removeAttribute('aria-invalid');
-            }
-
-            if (valid && (!telefono || !/^\d{9,15}$/.test(telefono))) {
-                valid = false;
-                errorMsg = 'Introduce un teléfono válido (solo dígitos, 9-15 números).';
-                bookingForm.telefono.setAttribute('aria-invalid', 'true');
-            } else {
-                bookingForm.telefono.removeAttribute('aria-invalid');
-            }
-
-            if (valid && !origen) {
-                valid = false;
-                errorMsg = 'Selecciona el lugar de origen.';
-                bookingForm.origen.setAttribute('aria-invalid', 'true');
-            } else {
-                bookingForm.origen.removeAttribute('aria-invalid');
-            }
-
-            if (valid && !destino) {
-                valid = false;
-                errorMsg = 'El destino es obligatorio.';
-                bookingForm.destino.setAttribute('aria-invalid', 'true');
-            } else if (valid) {
-                // Regla de negocio simplificada: solo ciertas zonas permitidas.
-                const destinoValido = /(tenerife|adeje|arona)/i.test(destino);
-                if (!destinoValido) {
-                    valid = false;
-                    errorMsg = 'Solo se permiten destinos en Tenerife, Adeje o Arona.';
-                    bookingForm.destino.setAttribute('aria-invalid', 'true');
+            fields.forEach((fieldName) => {
+                if (fieldName === validation.invalidField) {
+                    bookingForm[fieldName].setAttribute('aria-invalid', 'true');
                 } else {
-                    bookingForm.destino.removeAttribute('aria-invalid');
+                    bookingForm[fieldName].removeAttribute('aria-invalid');
                 }
-            } else {
-                bookingForm.destino.removeAttribute('aria-invalid');
-            }
+            });
 
-            if (valid && !fecha) {
-                valid = false;
-                errorMsg = 'Selecciona la fecha del traslado.';
-                bookingForm.fecha.setAttribute('aria-invalid', 'true');
-            } else {
-                bookingForm.fecha.removeAttribute('aria-invalid');
-            }
+            if (validation.valid) {
+                const booking = createBookingRecord(formData);
 
-            if (valid && (!pasajeros || pasajeros < 1 || pasajeros > 8)) {
-                valid = false;
-                errorMsg = 'El número de pasajeros debe estar entre 1 y 8.';
-                bookingForm.pasajeros.setAttribute('aria-invalid', 'true');
-            } else {
-                bookingForm.pasajeros.removeAttribute('aria-invalid');
-            }
+                if (!booking) {
+                    const storageErrorMsg = 'No se pudo guardar la reserva en este dispositivo. Inténtalo de nuevo.';
+                    announceToScreenReader(storageErrorMsg);
+                    showFormStatus(bookingForm, storageErrorMsg, false);
+                    return;
+                }
 
-            if (valid) {
-                const successMsg = 'Reserva realizada con éxito. Recibirás un correo de confirmación.';
+                const successMsg = `Reserva realizada con éxito. Tu código es ${booking.codigo_reserva}.`;
                 announceToScreenReader(successMsg);
                 showFormStatus(bookingForm, successMsg, true);
                 bookingForm.reset();
                 return;
             }
 
-            announceToScreenReader(errorMsg);
-            showFormStatus(bookingForm, errorMsg, false);
+            announceToScreenReader(validation.errorMsg);
+            showFormStatus(bookingForm, validation.errorMsg, false);
         });
     }
 
@@ -151,8 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
         manageForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            const codigo = manageForm.codigo_reserva.value;
-            const email = manageForm.email_reserva.value;
+            const codigo = manageForm.codigo_reserva.value.trim().toUpperCase();
+            const email = normalizeEmail(manageForm.email_reserva.value);
+            const resultContainer = document.getElementById('resultado-reserva');
             let valid = true;
             let errorMsg = '';
 
@@ -161,16 +273,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorMsg = 'Introduce el código de reserva y el correo electrónico.';
             }
 
+            if (!codigo) {
+                manageForm.codigo_reserva.setAttribute('aria-invalid', 'true');
+            } else {
+                manageForm.codigo_reserva.removeAttribute('aria-invalid');
+            }
+
+            if (!email) {
+                manageForm.email_reserva.setAttribute('aria-invalid', 'true');
+            } else {
+                manageForm.email_reserva.removeAttribute('aria-invalid');
+            }
+
             if (valid) {
+                const booking = getStoredBookings().find((storedBooking) => (
+                    storedBooking.codigo_reserva === codigo && normalizeEmail(storedBooking.email) === email
+                ));
+
+                if (!booking) {
+                    errorMsg = 'No se ha encontrado una reserva con ese código y correo electrónico.';
+                    announceToScreenReader(errorMsg);
+                    showFormStatus(manageForm, errorMsg, false);
+
+                    if (resultContainer) {
+                        resultContainer.innerHTML = '';
+                    }
+
+                    return;
+                }
+
                 const successMsg = 'Reserva encontrada. Mostrando detalles.';
                 announceToScreenReader(successMsg);
                 showFormStatus(manageForm, successMsg, true);
+                renderBookingDetails(resultContainer, booking);
                 manageForm.reset();
                 return;
             }
 
             announceToScreenReader(errorMsg);
             showFormStatus(manageForm, errorMsg, false);
+
+            if (resultContainer) {
+                resultContainer.innerHTML = '';
+            }
         });
     }
 

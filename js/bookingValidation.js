@@ -5,7 +5,7 @@
 
 /**
  * Valida los datos del formulario de reserva.
- * Comprueba nombre, email, teléfono, origen, destino, fecha y número de pasajeros.
+ * Comprueba nombre, email, teléfono, origen, destino, fecha, hora y número de pasajeros.
  * Devuelve un objeto con el estado de validez, mensaje de error y campo inválido si aplica.
  * @param {Object} data - Datos del formulario
  * @returns {Object} { valid: boolean, errorMsg: string|null, invalidField: string|null }
@@ -44,7 +44,12 @@ function validateBookingForm(data) {
         return { valid: false, errorMsg: "Selecciona la fecha del traslado.", invalidField: "fecha" };
     }
 
-    // 7) Número de pasajeros dentro de la capacidad permitida (1 a 8).
+    // 7) Hora obligatoria y con formato HH:MM en 24 horas.
+    if (!data.hora || !/^([01]\d|2[0-3]):[0-5]\d$/.test(data.hora)) {
+        return { valid: false, errorMsg: "Selecciona una hora válida para el traslado.", invalidField: "hora" };
+    }
+
+    // 8) Número de pasajeros dentro de la capacidad permitida (1 a 8).
     if (!data.pasajeros || data.pasajeros < 1 || data.pasajeros > 8) {
         return { valid: false, errorMsg: "El número de pasajeros debe estar entre 1 y 8.", invalidField: "pasajeros" };
     }
