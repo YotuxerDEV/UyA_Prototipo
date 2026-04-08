@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos base de la página principal -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi Transfers Tenerife</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body style="padding-top: 82px;">
+        <!--
+            index.html
+            Landing principal del servicio.
+            Secciones clave:
+            - Navegación superior.
+            - Hero con llamada a la acción.
+            - Destinos destacados.
+            - Pie informativo.
+        -->
+
+        <!-- Cabecera y navegación global -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" aria-label="Navegación principal">
+            <div class="container">
+                <img src="img_taxi.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                <a class="navbar-brand" href="index.html" data-i18n="brand">Taxi Transfer Tenerife</a>
+                                <!-- Menú responsive para tamaños de pantalla reducidos -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menú de navegación">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                                <!-- Navegación principal del sitio -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html" data-i18n="nav.home">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="booking.html" data-i18n="nav.book">Reservar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="manage-booking.html" data-i18n="nav.manage">Mis Reservas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html" data-i18n="nav.contact">Contacto</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-lg-2 mt-2 mt-lg-0">
+                            <button id="theme-toggle" class="btn btn-outline-light btn-sm nav-control-btn icon-only" type="button" aria-label="Cambiar tema"></button>
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-lg-2 mt-2 mt-lg-0">
+                            <button id="lang-toggle" class="btn btn-light btn-sm nav-control-btn icon-only" type="button" aria-label="Cambiar idioma"></button>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+
+    <!-- Contenido principal de la página -->
+    <main id="main-content" tabindex="-1">
+        <!-- Hero: propuesta de valor + CTA hacia la reserva -->
+        <section class="bg-light py-5 border-bottom">
+            <div class="container text-center">
+                <h1 class="display-4 fw-bold mb-4" data-i18n="home.hero.title">Traslados desde el Aeropuerto de Tenerife Sur</h1>
+                <p class="lead mb-4" data-i18n="home.hero.subtitle">Reserva tu taxi oficial al mejor precio. Viaja seguro y sin esperas a cualquier punto de la isla.</p>
+                <!-- Botón principal que dirige al formulario de reserva -->
+                <a href="booking.html" class="btn btn-primary btn-lg px-4 me-sm-3" aria-label="Ir al formulario para reservar tu traslado ahora" data-i18n="home.hero.cta">Reserva tu traslado ahora</a>
+            </div>
+        </section>
+
+        <!-- Destinos destacados para orientar opciones frecuentes de traslado -->
+        <section class="container py-5" aria-labelledby="servicios-title">
+            <h2 id="servicios-title" class="text-center mb-5" data-i18n="home.destinations.title">Nuestros Destinos Principales</h2>
+            <div class="row g-4">
+                <!-- Tarjeta de destino: Costa Adeje -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h3 class="card-title h5" data-i18n="home.destinations.adeje.title">Costa Adeje</h3>
+                            <p class="card-text" data-i18n="home.destinations.adeje.text">Llega a tu hotel en el sur en menos de 20 minutos.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta de destino: Los Cristianos -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h3 class="card-title h5" data-i18n="home.destinations.cristianos.title">Los Cristianos</h3>
+                            <p class="card-text" data-i18n="home.destinations.cristianos.text">Traslados directos y confortables a la zona turística.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta de destino: Santa Cruz de Tenerife -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h3 class="card-title h5" data-i18n="home.destinations.santacruz.title">Santa Cruz de Tenerife</h3>
+                            <p class="card-text" data-i18n="home.destinations.santacruz.text">Viaja a la capital o al puerto con total seguridad.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de opiniones/reviews de clientes -->
+        <section class="bg-light py-5 border-top border-bottom">
+            <div class="container">
+                <h2 class="text-center mb-5 fw-bold">⭐ Lo que nuestros clientes opinan</h2>
+                <div class="row g-4">
+                    <!-- Review 1 -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <span class="text-warning">★★★★★</span>
+                                </div>
+                                <p class="card-text mb-3"><em>"¡Servicio excelente! El taxista fue muy puntual y profesional. Definitivamente usaré este servicio nuevamente."</em></p>
+                                <p class="fw-bold mb-0">María García</p>
+                                <p class="text-muted small">Viajante frecuente desde Costa Adeje</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review 2 -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <span class="text-warning">★★★★★</span>
+                                </div>
+                                <p class="card-text mb-3"><em>"Muy buena relación calidad-precio. El vehículo estaba limpio y cómodo. Recomendado al 100%."</em></p>
+                                <p class="fw-bold mb-0">Juan Rodríguez</p>
+                                <p class="text-muted small">Turista desde Madrid</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review 3 -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="mb-2">
+                                    <span class="text-warning">★★★★★</span>
+                                </div>
+                                <p class="card-text mb-3"><em>"Hacía mucho que no viajaba tan cómodo. El personal fue atento y me ayudó con mis maletas."</em></p>
+                                <p class="fw-bold mb-0">Elena López</p>
+                                <p class="text-muted small">Visitante desde Barcelona</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie global con texto legal -->
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <div class="social-footer d-flex justify-content-center gap-3 mb-3">
+                <a href="https://www.youtube.com" target="_blank" aria-label="Ir a YouTube">
+                    <img src="img_youtube.png" alt="YouTube" width="28" height="28">
+                </a>
+                <a href="https://twitter.com" target="_blank" aria-label="Ir a Twitter">
+                    <img src="img_twitter.png" alt="Twitter" width="28" height="28">
+                </a>
+            </div>
+            <p class="mb-0" data-i18n="footer.rights">&copy; 2026 Taxi Transfer TFS. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script principal compartido entre páginas -->
+    <script src="js/main.js"></script>
+</body>
+</html>
