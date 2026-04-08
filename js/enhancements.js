@@ -40,10 +40,29 @@ document.addEventListener('DOMContentLoaded', () => {
         pet: 7
     };
 
+    function getLocaleText() {
+        const lang = (document.documentElement.getAttribute('lang') || 'es').toLowerCase();
+        const en = lang.startsWith('en');
+        return {
+            summaryTitle: en ? 'Price Summary' : 'Resumen de Precio',
+            distance: en ? 'Estimated distance' : 'Distancia estimada',
+            baseFare: en ? 'Base fare' : 'Tarifa base',
+            passengers: en ? 'Passengers' : 'Pasajeros',
+            optionalExtras: en ? 'Optional extras' : 'Extras opcionales',
+            igic: en ? 'IGIC (7%)' : 'IGIC (7%)',
+            totalEstimated: en ? 'Estimated total' : 'Total estimado',
+            bookingCode: en ? 'BOOKING CODE' : 'CÓDIGO DE RESERVA',
+            transferDetails: en ? 'Transfer details' : 'Detalles del traslado',
+            extras: en ? 'Extras' : 'Extras',
+            km: en ? 'km' : 'km'
+        };
+    }
+
     // Renderizar preview de precio en booking.html
     function renderPreview(form) {
         const previewContainer = document.getElementById('booking-summary');
         if (!previewContainer) return;
+        const text = getLocaleText();
 
         // Detectar si está en modo oscuro
         const isDarkMode = document.body.classList.contains('theme-dark');
@@ -87,31 +106,31 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="card border-0 shadow-lg" style="position: sticky; top: calc(82px + 1rem); width: 100%; background: ${colors.cardBg};">
                 <div class="card-body" style="padding: 1.5rem;">
                     <h3 class="h5 mb-4" style="font-weight: 700; color: ${colors.titleColor}; display: flex; align-items: center; gap: 0.5rem;">
-                        💰 Resumen de Precio
+                        💰 ${text.summaryTitle}
                     </h3>
                     
                     <div style="display: grid; gap: 1rem; font-size: 0.95em;">
                         <!-- Distancia -->
                         <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: ${colors.distanceBg}; border-radius: 0.5rem; border-left: 4px solid ${colors.distanceText};">
-                            <span style="color: ${colors.textPrimary}; font-weight: 500;">Distancia estimada:</span>
-                            <span style="font-weight: 700; color: ${colors.distanceText};">${km > 0 ? km + ' km' : '—'}</span>
+                            <span style="color: ${colors.textPrimary}; font-weight: 500;">${text.distance}:</span>
+                            <span style="font-weight: 700; color: ${colors.distanceText};">${km > 0 ? km + ' ' + text.km : '—'}</span>
                         </div>
                         
                         <!-- Tarifa base -->
                         <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: ${colors.normalBg}; border-radius: 0.5rem;">
-                            <span style="color: ${colors.textPrimary}; font-weight: 500;">Tarifa base:</span>
+                            <span style="color: ${colors.textPrimary}; font-weight: 500;">${text.baseFare}:</span>
                             <span style="font-weight: 700; color: ${colors.textSecondary};">${basePrice.toFixed(2)} EUR</span>
                         </div>
                         
                         <!-- Pasajeros -->
                         <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: ${colors.normalBg}; border-radius: 0.5rem;">
-                            <span style="color: ${colors.textPrimary}; font-weight: 500;">Pasajeros:</span>
+                            <span style="color: ${colors.textPrimary}; font-weight: 500;">${text.passengers}:</span>
                             <span style="font-weight: 700; color: ${colors.textSecondary};">${pasajeros}x</span>
                         </div>
                         
                         <!-- Extras Totales -->
                         <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: ${extrasTotal > 0 ? colors.greenBg : colors.normalBg}; border-radius: 0.5rem;">
-                            <span style="color: ${colors.textPrimary}; font-weight: 500;">Extras opcionales:</span>
+                            <span style="color: ${colors.textPrimary}; font-weight: 500;">${text.optionalExtras}:</span>
                             <span style="font-weight: 700; color: ${extrasTotal > 0 ? colors.greenText : colors.textSecondary};">${extrasTotal > 0 ? '+' : ''}${extrasTotal.toFixed(2)} EUR</span>
                         </div>
                         
@@ -120,13 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         <!-- IGIC -->
                         <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: ${colors.orangeBg}; border-radius: 0.5rem;">
-                            <span style="color: ${colors.textPrimary}; font-weight: 500;">IGIC (7%):</span>
+                            <span style="color: ${colors.textPrimary}; font-weight: 500;">${text.igic}:</span>
                             <span style="font-weight: 700; color: ${colors.orangeText};">${igic.toFixed(2)} EUR</span>
                         </div>
                         
                         <!-- Total -->
                         <div style="display: flex; justify-content: space-between; padding: 1rem; background: ${colors.totalGradient}; border-radius: 0.75rem; margin-top: 0.5rem;">
-                            <span style="color: #fff; font-weight: 700; font-size: 1.05em;">Total estimado:</span>
+                            <span style="color: #fff; font-weight: 700; font-size: 1.05em;">${text.totalEstimated}:</span>
                             <span style="color: ${colors.totalText}; font-weight: 700; font-size: 1.25em;">${total.toFixed(2)} EUR</span>
                         </div>
                     </div>
@@ -147,6 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
             renderPreview(bookingForm);
         });
         observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        const langObserver = new MutationObserver(() => {
+            renderPreview(bookingForm);
+        });
+        langObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
     }
 
     // Formatear extras con nombres legibles
@@ -335,6 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.renderPaymentSummary = function() {
         const summaryContainer = document.getElementById('payment-summary');
         if (!summaryContainer) return;
+        const text = getLocaleText();
         
         const bookingData = sessionStorage.getItem('currentBooking');
         if (!bookingData) return;
@@ -368,19 +393,19 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="card border-0" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff;">
                 <div class="card-body" style="padding: 2rem;">
                     <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid rgba(255,255,255,0.1);">
-                        <p style="margin: 0; font-size: 0.9em; color: #aaa;">CÓDIGO DE RESERVA</p>
+                        <p style="margin: 0; font-size: 0.9em; color: #aaa;">${text.bookingCode}</p>
                         <h2 style="margin: 0.5rem 0 0 0; font-size: 1.8em; font-weight: bold; color: #ffd166;">${booking.codigo_reserva}</h2>
                     </div>
                     
                     <div style="margin-bottom: 1.5rem;">
-                        <p style="margin: 0 0 1rem 0; font-weight: 600; color: #ccc;">Detalles del traslado</p>
+                        <p style="margin: 0 0 1rem 0; font-weight: 600; color: #ccc;">${text.transferDetails}</p>
                         <div style="display: grid; gap: 0.75rem; font-size: 0.95em;">
                             <div style="display: flex; justify-content: space-between;">
-                                <span style="color: #bbb;">Distancia estimada:</span>
-                                <span style="font-weight: 600;">${km} km</span>
+                                <span style="color: #bbb;">${text.distance}:</span>
+                                <span style="font-weight: 600;">${km} ${text.km}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                                <span style="color: #bbb;">Tarifa base:</span>
+                                <span style="color: #bbb;">${text.baseFare}:</span>
                                 <span style="font-weight: 600;">${basePrice.toFixed(2)} EUR</span>
                             </div>
                             ${booking.extras && booking.extras.length > 0 ? `
@@ -389,12 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                             ` : `
                                 <div style="display: flex; justify-content: space-between;">
-                                    <span style="color: #bbb;">Extras:</span>
+                                    <span style="color: #bbb;">${text.extras}:</span>
                                     <span style="font-weight: 600;">0.00 EUR</span>
                                 </div>
                             `}
                             <div style="display: flex; justify-content: space-between;">
-                                <span style="color: #bbb;">Pasajeros:</span>
+                                <span style="color: #bbb;">${text.passengers}:</span>
                                 <span style="font-weight: 600;">${booking.pasajeros}x</span>
                             </div>
                         </div>
@@ -402,11 +427,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     <div style="padding-top: 1rem; border-top: 2px solid rgba(255,255,255,0.2);">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.9em;">
-                            <span style="color: #bbb;">IGIC (7%):</span>
+                            <span style="color: #bbb;">${text.igic}:</span>
                             <span style="color: #bbb;">${igic.toFixed(2)} EUR</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; font-size: 1.3em; font-weight: bold;">
-                            <span style="color: #fff;">Total estimado:</span>
+                            <span style="color: #fff;">${text.totalEstimated}:</span>
                             <span style="color: #ffd166;">${total.toFixed(2)} EUR</span>
                         </div>
                     </div>
