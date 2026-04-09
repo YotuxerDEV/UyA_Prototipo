@@ -90,7 +90,7 @@ describe('validateBookingForm', () => {
     it('detecta pasajeros fuera de rango', () => {
         const data = { ...base(), pasajeros: 0 };
         // Espera error por número de pasajeros inválido
-        expect(validateBookingForm(data)).toEqual({ valid: false, errorMsg: 'El número de pasajeros debe estar entre 1 y 8.', invalidField: 'pasajeros' });
+        expect(validateBookingForm(data)).toEqual({ valid: false, errorMsg: 'El número de pasajeros debe estar entre 1 y 40.', invalidField: 'pasajeros' });
     });
 
     // Función auxiliar para obtener un objeto base válido

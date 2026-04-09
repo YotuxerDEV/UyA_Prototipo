@@ -141,6 +141,27 @@ fieldset,
 	filter: brightness(1.08) contrast(1.08);
 }
 
+.theme-dark .modal-content {
+	background-color: var(--surface-color) !important;
+	color: var(--text-color) !important;
+	border-color: var(--border-color) !important;
+}
+
+.theme-dark .modal-header,
+.theme-dark .modal-footer {
+	border-color: var(--border-color) !important;
+}
+
+.theme-dark .modal-header .btn-close,
+.theme-dark .modal-footer .btn-close {
+	filter: invert(1) brightness(2);
+}
+
+.theme-dark .payment-modal-card {
+	background-color: var(--surface-color) !important;
+	color: var(--text-color) !important;
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
 	opacity: 1;
@@ -163,4 +184,198 @@ select:focus-visible {
 .btn-primary {
 	background-color: var(--primary-color);
 	border-color: var(--primary-color);
+}
+
+.taxi-breakdown-card {
+	padding: 0.5rem 0;
+}
+
+.taxi-breakdown-heading {
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	margin: 0 0 0.45rem;
+	color: #334155;
+}
+
+.manual-disabled {
+	opacity: 0.55;
+	pointer-events: none;
+}
+
+.booking-summary-card {
+	position: sticky;
+	top: calc(var(--navbar-height) + 1rem);
+	border-radius: 1.1rem;
+	overflow: hidden;
+}
+
+.booking-summary-card .card-body {
+	background: linear-gradient(170deg, rgba(13, 110, 253, 0.11), rgba(255, 255, 255, 0.96));
+}
+
+.pricing-eyebrow {
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+	color: #0c4c9c;
+}
+
+.pricing-title {
+	line-height: 1.15;
+	color: #0e2f57;
+}
+
+.pricing-note {
+	font-size: 0.92rem;
+	color: #38506b;
+}
+
+.pricing-list {
+	border-top: 1px solid rgba(13, 110, 253, 0.2);
+	padding-top: 0.6rem;
+}
+
+.pricing-row,
+.pricing-total-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 0.6rem;
+}
+
+.pricing-row dt,
+.pricing-row dd {
+	margin: 0;
+}
+
+.pricing-row dt {
+	font-weight: 600;
+	color: #31475f;
+}
+
+.pricing-row dd {
+	font-weight: 700;
+	color: #19395a;
+}
+
+.pricing-row span,
+.pricing-total-row span {
+	color: #364152;
+}
+
+.pricing-total-row {
+	margin-bottom: 0;
+	padding: 0.85rem 0.9rem;
+	border-radius: 0.75rem;
+	background: linear-gradient(145deg, rgba(13, 110, 253, 0.16), rgba(203, 226, 255, 0.55));
+	border: 1px solid rgba(13, 110, 253, 0.22);
+}
+
+.pricing-total-row strong {
+	font-size: 1.16rem;
+	color: #0f3f71;
+}
+
+.payment-modal-card {
+	border: 0;
+	border-radius: 1rem;
+	box-shadow: 0 24px 55px rgba(4, 19, 43, 0.28);
+}
+
+.payment-amount-box {
+	border: 1px dashed rgba(13, 110, 253, 0.35);
+	border-radius: 0.75rem;
+	padding: 0.8rem 1rem;
+	background: linear-gradient(140deg, rgba(13, 110, 253, 0.14), rgba(226, 238, 255, 0.55));
+}
+
+.confirm-grid {
+	font-size: 0.95rem;
+	display: grid;
+	gap: 0.9rem;
+}
+
+.confirm-panel {
+	padding: 0.85rem;
+	border-radius: 0.75rem;
+	border: 1px solid rgba(13, 110, 253, 0.16);
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(241, 247, 255, 0.78));
+}
+
+.confirm-panel-price {
+	background: linear-gradient(145deg, rgba(13, 110, 253, 0.12), rgba(255, 255, 255, 0.95));
+}
+
+.theme-dark .taxi-breakdown-heading {
+	color: #d2d9e5;
+}
+
+.theme-dark .booking-summary-card .card-body {
+	background: linear-gradient(165deg, rgba(100, 181, 246, 0.12), rgba(18, 26, 43, 0.95));
+}
+
+.theme-dark .pricing-eyebrow {
+	color: #9dceff;
+}
+
+.theme-dark .pricing-title {
+	color: #f2f7ff;
+}
+
+.theme-dark .pricing-note {
+	color: #c9d7ea;
+}
+
+.theme-dark .pricing-list {
+	border-top-color: rgba(100, 181, 246, 0.35);
+}
+
+.theme-dark .pricing-row dt {
+	color: #d8e3f3;
+}
+
+.theme-dark .pricing-row dd {
+	color: #ffffff;
+}
+
+.theme-dark .pricing-row span,
+.theme-dark .pricing-total-row span {
+	color: #d2d9e5;
+}
+
+.theme-dark .pricing-total-row {
+	background: linear-gradient(145deg, rgba(100, 181, 246, 0.25), rgba(22, 37, 62, 0.9));
+	border-color: rgba(100, 181, 246, 0.4);
+}
+
+.theme-dark .pricing-total-row strong {
+	color: #f3f8ff;
+}
+
+.theme-dark .confirm-panel {
+	background: linear-gradient(155deg, rgba(30, 45, 72, 0.86), rgba(16, 24, 39, 0.96));
+	border-color: rgba(100, 181, 246, 0.35);
+}
+
+.theme-dark .confirm-panel-price {
+	background: linear-gradient(155deg, rgba(31, 72, 134, 0.38), rgba(16, 24, 39, 0.95));
+}
+
+.theme-dark .payment-amount-box {
+	background: linear-gradient(145deg, rgba(100, 181, 246, 0.2), rgba(18, 26, 43, 0.95));
+	border-color: rgba(100, 181, 246, 0.5);
+}
+
+@media (max-width: 992px) {
+	.booking-summary-card {
+		position: static;
+	}
+
+	.confirm-grid {
+		grid-template-columns: 1fr;
+	}
 }

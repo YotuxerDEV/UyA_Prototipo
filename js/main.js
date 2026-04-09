@@ -62,7 +62,53 @@ document.addEventListener('DOMContentLoaded', () => {
 			'booking.origin.tfs': 'Aeropuerto Tenerife Sur (TFS)',
 			'booking.origin.tfn': 'Aeropuerto Tenerife Norte (TFN)',
 			'booking.origin.gcxo': 'Aeropuerto de La Gomera (GCXO)',
-			'booking.submit': 'Ir a pago seguro',
+			'booking.submit': 'Confirmar datos',
+			'booking.none': 'Ninguno',
+			'booking.taxi.title': 'Seleccion de taxis',
+			'booking.taxi.mode': 'Modo de seleccion',
+			'booking.taxi.mode.auto': 'Automatico recomendado',
+			'booking.taxi.mode.manual': 'Manual',
+			'booking.taxi.type.taxi1': 'Taxi 1 (4 plazas, +0 EUR)',
+			'booking.taxi.type.taxi2': 'Taxi 2 (6 plazas, +10 EUR)',
+			'booking.taxi.type.taxi3': 'Taxi 3 (8 plazas, +18 EUR)',
+			'booking.breakdown.recommended': 'Combinacion recomendada',
+			'booking.breakdown.active': 'Seleccion activa',
+			'booking.breakdown.capacityRecommended': 'Capacidad total recomendada',
+			'booking.breakdown.capacityActive': 'Capacidad total activa',
+			'booking.breakdown.spareRecommended': 'Plazas sobrantes recomendadas',
+			'booking.breakdown.spareActive': 'Plazas sobrantes activas',
+			'booking.breakdown.taxiCostRecommended': 'Coste adicional taxis recomendado',
+			'booking.breakdown.taxiCostActive': 'Coste adicional taxis activo',
+			'booking.breakdown.manualInvalid': 'La seleccion manual debe cubrir todos los pasajeros.',
+			'booking.summary.title': 'Resumen de precio',
+			'booking.summary.distance': 'Distancia estimada',
+			'booking.summary.tripByTaxis': 'Trayecto x {count} taxis (sin importar el tipo)',
+			'booking.summary.extras': 'Extras',
+			'booking.summary.taxiExtra': 'Coste adicional por tipo de taxi',
+			'booking.summary.igic': 'IGIC (7%)',
+			'booking.summary.total': 'Total estimado',
+			'booking.modal.confirm.title': 'Confirmar datos de la reserva',
+			'booking.modal.confirm.edit': 'Editar',
+			'booking.modal.confirm.proceed': 'Continuar al pago',
+			'booking.modal.passenger.title': 'Datos del pasajero',
+			'booking.modal.transfer.title': 'Datos del traslado',
+			'booking.modal.taxis.title': 'Taxis',
+			'booking.modal.price.title': 'Precio',
+			'booking.modal.payment.title': 'Pago seguro',
+			'booking.modal.payment.cardHolder': 'Titular de la tarjeta',
+			'booking.modal.payment.cardHolder.placeholder': 'Nombre completo',
+			'booking.modal.payment.cardNumber': 'Numero de tarjeta',
+			'booking.modal.payment.cardNumber.placeholder': '1234 5678 9012 3456',
+			'booking.modal.payment.expiry': 'Vencimiento',
+			'booking.modal.payment.expiry.placeholder': 'MM/AA',
+			'booking.modal.payment.cvv': 'CVV',
+			'booking.modal.payment.cvv.placeholder': '123',
+			'booking.modal.payment.submit': 'Pagar y confirmar reserva',
+			'booking.modal.payment.totalToPay': 'Total a pagar',
+			'status.payment.pendingMissing': 'No hay una reserva pendiente para pagar.',
+			'status.payment.invalidCard': 'Revisa los datos de la tarjeta.',
+			'status.payment.persistError': 'No se pudo guardar la reserva en este navegador.',
+			'status.payment.success': 'Pago completado. Codigo de reserva: {code}',
 			'manage.title': 'Mis Reservas',
 			'manage.subtitle': 'Introduce tu código y correo para gestionar tu reserva.',
 			'manage.fields.code': 'Código de Reserva',
@@ -155,7 +201,53 @@ document.addEventListener('DOMContentLoaded', () => {
 			'booking.origin.tfs': 'Tenerife South Airport (TFS)',
 			'booking.origin.tfn': 'Tenerife North Airport (TFN)',
 			'booking.origin.gcxo': 'La Gomera Airport (GCXO)',
-			'booking.submit': 'Go to secure payment',
+			'booking.submit': 'Confirm details',
+			'booking.none': 'None',
+			'booking.taxi.title': 'Taxi selection',
+			'booking.taxi.mode': 'Selection mode',
+			'booking.taxi.mode.auto': 'Recommended automatic',
+			'booking.taxi.mode.manual': 'Manual',
+			'booking.taxi.type.taxi1': 'Taxi 1 (4 seats, +0 EUR)',
+			'booking.taxi.type.taxi2': 'Taxi 2 (6 seats, +10 EUR)',
+			'booking.taxi.type.taxi3': 'Taxi 3 (8 seats, +18 EUR)',
+			'booking.breakdown.recommended': 'Recommended combination',
+			'booking.breakdown.active': 'Active selection',
+			'booking.breakdown.capacityRecommended': 'Recommended total capacity',
+			'booking.breakdown.capacityActive': 'Active total capacity',
+			'booking.breakdown.spareRecommended': 'Recommended spare seats',
+			'booking.breakdown.spareActive': 'Active spare seats',
+			'booking.breakdown.taxiCostRecommended': 'Recommended taxi type surcharge',
+			'booking.breakdown.taxiCostActive': 'Active taxi type surcharge',
+			'booking.breakdown.manualInvalid': 'Manual selection must cover all passengers.',
+			'booking.summary.title': 'Price summary',
+			'booking.summary.distance': 'Estimated distance',
+			'booking.summary.tripByTaxis': 'Trip x {count} taxis (regardless of type)',
+			'booking.summary.extras': 'Extras',
+			'booking.summary.taxiExtra': 'Taxi type surcharge',
+			'booking.summary.igic': 'IGIC (7%)',
+			'booking.summary.total': 'Estimated total',
+			'booking.modal.confirm.title': 'Confirm booking details',
+			'booking.modal.confirm.edit': 'Edit',
+			'booking.modal.confirm.proceed': 'Continue to payment',
+			'booking.modal.passenger.title': 'Passenger details',
+			'booking.modal.transfer.title': 'Transfer details',
+			'booking.modal.taxis.title': 'Taxis',
+			'booking.modal.price.title': 'Price',
+			'booking.modal.payment.title': 'Secure payment',
+			'booking.modal.payment.cardHolder': 'Cardholder name',
+			'booking.modal.payment.cardHolder.placeholder': 'Full name',
+			'booking.modal.payment.cardNumber': 'Card number',
+			'booking.modal.payment.cardNumber.placeholder': '1234 5678 9012 3456',
+			'booking.modal.payment.expiry': 'Expiry date',
+			'booking.modal.payment.expiry.placeholder': 'MM/YY',
+			'booking.modal.payment.cvv': 'CVV',
+			'booking.modal.payment.cvv.placeholder': '123',
+			'booking.modal.payment.submit': 'Pay and confirm booking',
+			'booking.modal.payment.totalToPay': 'Total to pay',
+			'status.payment.pendingMissing': 'There is no pending booking to pay.',
+			'status.payment.invalidCard': 'Please review the card details.',
+			'status.payment.persistError': 'Could not save booking in this browser.',
+			'status.payment.success': 'Payment completed. Booking code: {code}',
 			'manage.title': 'My Bookings',
 			'manage.subtitle': 'Enter your code and email to manage your booking.',
 			'manage.fields.code': 'Booking Code',
@@ -209,6 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		return text;
 	}
 
+	window.appI18n = {
+		t,
+		getLang: () => currentLang,
+		translations
+	};
+
 	function applyTheme() {
 		document.body.classList.toggle('theme-dark', currentTheme === 'dark');
 		const themeButton = document.getElementById('theme-toggle');
@@ -252,6 +350,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (lastRenderedBooking && resultContainer) {
 			renderBookingDetails(resultContainer, lastRenderedBooking);
 		}
+
+		document.dispatchEvent(new CustomEvent('app:languageChanged', {
+			detail: { lang: currentLang }
+		}));
 	}
 
 	function getStoredBookings() {
@@ -355,6 +457,673 @@ document.addEventListener('DOMContentLoaded', () => {
 		status.style.borderRadius = '0.5rem';
 	}
 
+	const planner = window.taxiPlanner;
+	const pricingCalculator = window.bookingPricing;
+
+	const destinoPrices = {
+		'Costa Adeje': { km: 18, base: 25 },
+		'Los Cristianos': { km: 22, base: 30 },
+		'Playa de las Americas': { km: 20, base: 28 },
+		'El Medano': { km: 15, base: 22 },
+		'El Médano': { km: 15, base: 22 },
+		'Santa Cruz de Tenerife': { km: 80, base: 65 },
+		'Puerto de la Cruz': { km: 90, base: 75 },
+		'La Laguna': { km: 85, base: 70 },
+		'Los Gigantes': { km: 55, base: 50 },
+		Vilaflor: { km: 42, base: 45 },
+		'San Miguel de Abona': { km: 48, base: 48 },
+		Garachico: { km: 100, base: 85 },
+		'Puerto del Rosario': { km: 5, base: 15 },
+		'Icod de los Vinos': { km: 95, base: 80 },
+		Candelaria: { km: 70, base: 60 },
+		Arafo: { km: 35, base: 38 }
+	};
+
+	const extrasLabelKeys = {
+		wheelchair: 'booking.extras.wheelchair',
+		babySeat: 'booking.extras.babySeat',
+		booster: 'booking.extras.booster',
+		pet: 'booking.extras.pet'
+	};
+
+	const extrasPrices = {
+		wheelchair: 6,
+		babySeat: 8,
+		booster: 5,
+		pet: 7
+	};
+
+	let pendingBookingPayload = null;
+
+	function money(value) {
+		return `${Number(value || 0).toFixed(2)} EUR`;
+	}
+
+	function getTaxiMode(form) {
+		return form.querySelector('input[name="taxiSelectionMode"]:checked')?.value || 'auto';
+	}
+
+	function getPassengers(form) {
+		return planner?.toSafePassengerCount(form.pasajeros?.value || 1) || 1;
+	}
+
+	function getManualTaxiSelection() {
+		return {
+			taxi1: Number.parseInt(document.getElementById('taxi1Count')?.value || '0', 10) || 0,
+			taxi2: Number.parseInt(document.getElementById('taxi2Count')?.value || '0', 10) || 0,
+			taxi3: Number.parseInt(document.getElementById('taxi3Count')?.value || '0', 10) || 0
+		};
+	}
+
+	function getTaxiSelection(form, passengers, recommendedPlan) {
+		const mode = getTaxiMode(form);
+		if (!planner || mode === 'auto') {
+			return { ...recommendedPlan, mode: 'auto', valid: true };
+		}
+
+		const manual = planner.summarizeSelection(getManualTaxiSelection(), planner.TAXI_TYPES, passengers);
+		return {
+			...manual,
+			mode: 'manual',
+			valid: manual.totalCapacity >= passengers && manual.taxiCount > 0,
+			validationMessage: manual.totalCapacity >= passengers
+				? ''
+				: t('booking.breakdown.manualInvalid')
+		};
+	}
+
+	function getBookingDataFromForm(form) {
+		const pasajeros = getPassengers(form);
+		const extras = Array.from(form.querySelectorAll('input[name="extras"]:checked')).map((item) => item.value);
+		return {
+			nombre: form.nombre?.value?.trim() || '',
+			email: normalizeEmail(form.email?.value || ''),
+			telefono: form.telefono?.value?.trim() || '',
+			origen: form.origen?.value || '',
+			destino: form.destino?.value || '',
+			fecha: form.fecha?.value || '',
+			hora: form.hora?.value || '',
+			pasajeros,
+			extras,
+			peticiones: form.peticiones?.value?.trim() || ''
+		};
+	}
+
+	function buildPricing(bookingData, taxiSelection) {
+		const destinationData = destinoPrices[bookingData.destino] || { km: 0, base: 0 };
+		const extrasTotal = bookingData.extras.reduce((sum, extra) => sum + (extrasPrices[extra] || 0), 0);
+
+		if (pricingCalculator && typeof pricingCalculator.calculateBookingPricing === 'function') {
+			return pricingCalculator.calculateBookingPricing({
+				destinationData,
+				extrasTotal,
+				taxiAdditionalCost: taxiSelection.taxiCost,
+				taxiCount: taxiSelection.taxiCount,
+				igicRate: 0.07
+			});
+		}
+
+		const tripCost = (destinationData.base || 0) * (taxiSelection.taxiCount || 0);
+		const subtotal = tripCost + extrasTotal + (taxiSelection.taxiCost || 0);
+		const igic = subtotal * 0.07;
+
+		return {
+			km: destinationData.km || 0,
+			taxiCount: taxiSelection.taxiCount || 0,
+			basePricePerTaxi: destinationData.base || 0,
+			tripCost,
+			extrasTotal,
+			taxiAdditionalCost: taxiSelection.taxiCost || 0,
+			subtotal,
+			igic,
+			total: subtotal + igic
+		};
+	}
+
+	function renderTaxiBreakdown(recommendedPlan, selectedPlan) {
+		const container = document.getElementById('taxi-breakdown');
+		if (!container) {
+			return;
+		}
+
+		const warningHtml = selectedPlan.valid
+			? ''
+			: `<p class="text-danger small mb-0 mt-3">${escapeHtml(t('booking.breakdown.manualInvalid'))}</p>`;
+
+		container.innerHTML = `
+			<div class="taxi-breakdown-card">
+				<h4 class="taxi-breakdown-heading">${escapeHtml(t('booking.breakdown.recommended'))}</h4>
+				<p class="small mb-1"><strong>${escapeHtml(t('booking.breakdown.recommended'))}:</strong> ${escapeHtml(recommendedPlan.formattedCombination)}</p>
+				<p class="small mb-1">${escapeHtml(t('booking.breakdown.capacityRecommended'))}: ${recommendedPlan.totalCapacity}</p>
+				<p class="small mb-1">${escapeHtml(t('booking.breakdown.spareRecommended'))}: ${recommendedPlan.spareSeats}</p>
+				<p class="small mb-0">${escapeHtml(t('booking.breakdown.taxiCostRecommended'))}: ${money(recommendedPlan.taxiCost)}</p>
+			</div>
+			<div class="taxi-breakdown-card mt-3">
+				<h4 class="taxi-breakdown-heading">${escapeHtml(t('booking.breakdown.active'))}</h4>
+				<p class="small mb-1"><strong>${escapeHtml(t('booking.breakdown.active'))}:</strong> ${escapeHtml(selectedPlan.formattedCombination)}</p>
+				<p class="small mb-1">${escapeHtml(t('booking.breakdown.capacityActive'))}: ${selectedPlan.totalCapacity}</p>
+				<p class="small mb-1">${escapeHtml(t('booking.breakdown.spareActive'))}: ${selectedPlan.spareSeats}</p>
+				<p class="small mb-0">${escapeHtml(t('booking.breakdown.taxiCostActive'))}: ${money(selectedPlan.taxiCost)}</p>
+			</div>
+			${warningHtml}
+		`;
+	}
+
+	function renderPreview(form) {
+		const summary = document.getElementById('booking-summary');
+		if (!summary || !planner) {
+			return;
+		}
+
+		const bookingData = getBookingDataFromForm(form);
+		const recommendedPlan = planner.computeBestTaxiCombination(bookingData.pasajeros);
+
+		if (getTaxiMode(form) === 'auto') {
+			document.getElementById('taxi1Count').value = recommendedPlan.selection.taxi1;
+			document.getElementById('taxi2Count').value = recommendedPlan.selection.taxi2;
+			document.getElementById('taxi3Count').value = recommendedPlan.selection.taxi3;
+		}
+
+		const selectedPlan = getTaxiSelection(form, bookingData.pasajeros, recommendedPlan);
+		const pricing = buildPricing(bookingData, selectedPlan);
+		renderTaxiBreakdown(recommendedPlan, selectedPlan);
+
+		summary.innerHTML = `
+			<section class="card border-0 shadow-lg booking-summary-card" role="region" aria-label="${escapeHtml(t('booking.summary.title'))}">
+				<div class="card-body p-4 p-xl-4">
+					<p class="pricing-eyebrow mb-2">${escapeHtml(t('booking.summary.title'))}</p>
+					<h3 class="h4 fw-bold mb-3 pricing-title">${money(pricing.total)}</h3>
+					<p class="pricing-note mb-3">${escapeHtml(t('booking.summary.tripByTaxis', { count: pricing.taxiCount }))}</p>
+
+					<dl class="pricing-list mb-0" aria-live="polite">
+						<div class="pricing-row">
+							<dt>${escapeHtml(t('booking.summary.distance'))}</dt>
+							<dd>${pricing.km || '-'} km</dd>
+						</div>
+						<div class="pricing-row">
+							<dt>${escapeHtml(t('booking.summary.tripByTaxis', { count: pricing.taxiCount }))}</dt>
+							<dd>${money(pricing.tripCost)}</dd>
+						</div>
+						<div class="pricing-row">
+							<dt>${escapeHtml(t('booking.summary.extras'))}</dt>
+							<dd>${money(pricing.extrasTotal)}</dd>
+						</div>
+						<div class="pricing-row">
+							<dt>${escapeHtml(t('booking.summary.taxiExtra'))}</dt>
+							<dd>${money(pricing.taxiAdditionalCost)}</dd>
+						</div>
+						<div class="pricing-row">
+							<dt>${escapeHtml(t('booking.summary.igic'))}</dt>
+							<dd>${money(pricing.igic)}</dd>
+						</div>
+					</dl>
+
+					<div class="pricing-total-row mt-3" aria-label="${escapeHtml(t('booking.summary.total'))}">
+						<span class="fw-bold">${escapeHtml(t('booking.summary.total'))}</span>
+						<strong>${money(pricing.total)}</strong>
+					</div>
+				</div>
+			</section>
+		`;
+	}
+
+	function createConfirmSummaryHTML(bookingData, recommendedPlan, selectedPlan, pricing) {
+		const extrasLabel = bookingData.extras.length
+			? bookingData.extras.map((extra) => t(extrasLabelKeys[extra] || extra)).join(', ')
+			: t('booking.none');
+
+		return `
+			<div class="confirm-grid">
+				<section class="confirm-panel">
+					<h3 class="h6 fw-bold mb-2">${escapeHtml(t('booking.modal.passenger.title'))}</h3>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.fields.name'))}:</strong> ${escapeHtml(bookingData.nombre)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.fields.email'))}:</strong> ${escapeHtml(bookingData.email)}</p>
+					<p class="mb-0"><strong>${escapeHtml(t('booking.fields.phone'))}:</strong> ${escapeHtml(bookingData.telefono)}</p>
+				</section>
+
+				<section class="confirm-panel">
+					<h3 class="h6 fw-bold mb-2">${escapeHtml(t('booking.modal.transfer.title'))}</h3>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.fields.origin'))}:</strong> ${escapeHtml(bookingData.origen)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.fields.destination'))}:</strong> ${escapeHtml(bookingData.destino)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.fields.date'))}:</strong> ${escapeHtml(bookingData.fecha)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.fields.time'))}:</strong> ${escapeHtml(bookingData.hora)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.fields.passengers'))}:</strong> ${bookingData.pasajeros}</p>
+					<p class="mb-0"><strong>${escapeHtml(t('booking.fields.extras'))}:</strong> ${escapeHtml(extrasLabel)}</p>
+				</section>
+
+				<section class="confirm-panel">
+					<h3 class="h6 fw-bold mb-2">${escapeHtml(t('booking.modal.taxis.title'))}</h3>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.breakdown.recommended'))}:</strong> ${escapeHtml(recommendedPlan.formattedCombination)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.breakdown.active'))}:</strong> ${escapeHtml(selectedPlan.formattedCombination)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.breakdown.capacityActive'))}:</strong> ${selectedPlan.totalCapacity}</p>
+					<p class="mb-0"><strong>${escapeHtml(t('booking.breakdown.spareActive'))}:</strong> ${selectedPlan.spareSeats}</p>
+				</section>
+
+				<section class="confirm-panel confirm-panel-price">
+					<h3 class="h6 fw-bold mb-2">${escapeHtml(t('booking.modal.price.title'))}</h3>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.summary.tripByTaxis', { count: pricing.taxiCount }))}:</strong> ${money(pricing.tripCost)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.summary.extras'))}:</strong> ${money(pricing.extrasTotal)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.summary.taxiExtra'))}:</strong> ${money(pricing.taxiAdditionalCost)}</p>
+					<p class="mb-1"><strong>${escapeHtml(t('booking.summary.igic'))}:</strong> ${money(pricing.igic)}</p>
+					<p class="mb-0 fs-5"><strong>${escapeHtml(t('booking.summary.total'))}:</strong> ${money(pricing.total)}</p>
+				</section>
+			</div>
+		`;
+	}
+
+	function validatePaymentForm() {
+		const holder = document.getElementById('modal-card-holder')?.value?.trim() || '';
+		const card = (document.getElementById('modal-card-number')?.value || '').replace(/\s/g, '');
+		const exp = document.getElementById('modal-card-exp')?.value?.trim() || '';
+		const cvv = document.getElementById('modal-card-cvv')?.value?.trim() || '';
+
+		return !!(holder && /^\d{13,19}$/.test(card) && /^(0[1-9]|1[0-2])\/\d{2}$/.test(exp) && /^\d{3,4}$/.test(cvv));
+	}
+
+	function showInlinePaymentStatus(message, success) {
+		const status = document.getElementById('inline-payment-status');
+		if (!status) {
+			return;
+		}
+		status.textContent = message;
+		status.className = success ? 'alert alert-success mt-3' : 'alert alert-danger mt-3';
+	}
+
+	function persistBooking(payload) {
+		const bookings = getStoredBookings();
+		const booking = {
+			codigo_reserva: generateBookingCode(bookings),
+			...payload.bookingData,
+			taxiSelectionMode: payload.selectedPlan.mode,
+			taxiSelection: payload.selectedPlan.selection,
+			taxiRecommendation: payload.recommendedPlan.selection,
+			taxiSummary: {
+				formattedCombination: payload.selectedPlan.formattedCombination,
+				totalCapacity: payload.selectedPlan.totalCapacity,
+				spareSeats: payload.selectedPlan.spareSeats,
+				taxiCost: payload.selectedPlan.taxiCost,
+				taxiCount: payload.selectedPlan.taxiCount
+			},
+			pricing: payload.pricing,
+			createdAt: new Date().toISOString()
+		};
+
+		bookings.push(booking);
+		if (!saveStoredBookings(bookings)) {
+			return null;
+		}
+
+		return booking;
+	}
+
+	function setupBookingFlow() {
+		const form = document.getElementById('booking-form');
+		const confirmModalEl = document.getElementById('confirm-booking-modal');
+		const paymentModalEl = document.getElementById('payment-modal');
+
+		if (!form || !confirmModalEl || !paymentModalEl || !planner || typeof bootstrap === 'undefined') {
+			return;
+		}
+
+		window.bookingEnhancedFlowActive = true;
+
+		const confirmModal = new bootstrap.Modal(confirmModalEl);
+		const paymentModal = new bootstrap.Modal(paymentModalEl);
+		const modeInputs = Array.from(form.querySelectorAll('input[name="taxiSelectionMode"]'));
+		const manualControls = document.getElementById('taxi-manual-controls');
+		const manualInputs = [
+			document.getElementById('taxi1Count'),
+			document.getElementById('taxi2Count'),
+			document.getElementById('taxi3Count')
+		];
+
+		function setManualControlsState() {
+			const isManual = getTaxiMode(form) === 'manual';
+			if (manualControls) {
+				manualControls.classList.toggle('manual-disabled', !isManual);
+			}
+			manualInputs.forEach((input) => {
+				if (input) {
+					input.disabled = !isManual;
+				}
+			});
+			renderPreview(form);
+		}
+
+		modeInputs.forEach((input) => {
+			input.addEventListener('change', setManualControlsState);
+		});
+
+		manualInputs.forEach((input) => {
+			if (input) {
+				input.addEventListener('input', () => renderPreview(form));
+			}
+		});
+
+		form.addEventListener('change', () => renderPreview(form));
+		form.addEventListener('input', () => renderPreview(form));
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+			event.stopImmediatePropagation();
+
+			if (!form.checkValidity()) {
+				form.reportValidity();
+				return;
+			}
+
+			const bookingData = getBookingDataFromForm(form);
+			const recommendedPlan = planner.computeBestTaxiCombination(bookingData.pasajeros);
+			const selectedPlan = getTaxiSelection(form, bookingData.pasajeros, recommendedPlan);
+
+			if (!selectedPlan.valid) {
+				renderPreview(form);
+				return;
+			}
+
+			const pricing = buildPricing(bookingData, selectedPlan);
+			pendingBookingPayload = { bookingData, recommendedPlan, selectedPlan, pricing };
+
+			const confirmContent = document.getElementById('confirm-booking-content');
+			if (confirmContent) {
+				confirmContent.innerHTML = createConfirmSummaryHTML(bookingData, recommendedPlan, selectedPlan, pricing);
+			}
+
+			confirmModal.show();
+		}, true);
+
+		const proceedButton = document.getElementById('proceed-to-payment-btn');
+		if (proceedButton) {
+			proceedButton.addEventListener('click', () => {
+				if (!pendingBookingPayload) {
+					return;
+				}
+
+				const paymentSummary = document.getElementById('payment-modal-summary');
+				if (paymentSummary) {
+					paymentSummary.innerHTML = `
+						<div class="payment-amount-box">
+							<p class="mb-1 text-muted">${escapeHtml(t('booking.modal.payment.totalToPay'))}</p>
+							<p class="mb-0 fs-4 fw-bold">${money(pendingBookingPayload.pricing.total)}</p>
+						</div>
+					`;
+				}
+
+				confirmModal.hide();
+				paymentModal.show();
+			});
+		}
+
+		const paymentForm = document.getElementById('inline-payment-form');
+		if (paymentForm) {
+			paymentForm.addEventListener('submit', (event) => {
+				event.preventDefault();
+				if (!pendingBookingPayload) {
+					showInlinePaymentStatus(t('status.payment.pendingMissing'), false);
+					return;
+				}
+
+				if (!validatePaymentForm()) {
+					showInlinePaymentStatus(t('status.payment.invalidCard'), false);
+					return;
+				}
+
+				const booking = persistBooking(pendingBookingPayload);
+				if (!booking) {
+					showInlinePaymentStatus(t('status.payment.persistError'), false);
+					return;
+				}
+
+				sessionStorage.setItem('currentBooking', JSON.stringify(booking));
+				sessionStorage.setItem('paymentAccess', '1');
+				showInlinePaymentStatus(t('status.payment.success', { code: booking.codigo_reserva }), true);
+
+				const statusEl = document.getElementById('inline-payment-status');
+				if (statusEl && !statusEl.querySelector('.js-payment-close')) {
+					const closeBtn = document.createElement('button');
+					closeBtn.type = 'button';
+					closeBtn.className = 'btn btn-outline-secondary btn-sm mt-2 w-100 js-payment-close';
+					closeBtn.textContent = 'Cerrar';
+					closeBtn.addEventListener('click', () => {
+						paymentModal.hide();
+						pendingBookingPayload = null;
+						paymentForm.reset();
+						form.reset();
+						form.pasajeros.value = '1';
+						form.querySelector('input[name="taxiSelectionMode"][value="auto"]').checked = true;
+						setManualControlsState();
+						showInlinePaymentStatus('', true);
+						const statusNode = document.getElementById('inline-payment-status');
+						if (statusNode) {
+							statusNode.className = 'mt-3';
+							statusNode.textContent = '';
+						}
+					});
+					statusEl.appendChild(closeBtn);
+				}
+			});
+		}
+
+		document.addEventListener('app:languageChanged', () => {
+			renderPreview(form);
+
+			if (pendingBookingPayload) {
+				const confirmContent = document.getElementById('confirm-booking-content');
+				if (confirmContent) {
+					confirmContent.innerHTML = createConfirmSummaryHTML(
+						pendingBookingPayload.bookingData,
+						pendingBookingPayload.recommendedPlan,
+						pendingBookingPayload.selectedPlan,
+						pendingBookingPayload.pricing
+					);
+				}
+
+				const paymentSummary = document.getElementById('payment-modal-summary');
+				if (paymentSummary) {
+					paymentSummary.innerHTML = `
+						<div class="payment-amount-box">
+							<p class="mb-1 text-muted">${escapeHtml(t('booking.modal.payment.totalToPay'))}</p>
+							<p class="mb-0 fs-4 fw-bold">${money(pendingBookingPayload.pricing.total)}</p>
+						</div>
+					`;
+				}
+			}
+		});
+
+		setManualControlsState();
+		renderPreview(form);
+	}
+
+	function formatExtras(extrasArray) {
+		if (!extrasArray || extrasArray.length === 0) {
+			return t('booking.none');
+		}
+		return extrasArray.map((extra) => t(extrasLabelKeys[extra] || extra)).join(', ');
+	}
+
+	function bookingPricingSnapshot(booking) {
+		if (booking.pricing && typeof booking.pricing.tripCost === 'number' && typeof booking.pricing.taxiAdditionalCost === 'number') {
+			return booking.pricing;
+		}
+
+		const fallbackTaxi = booking.taxiSummary?.taxiCost || 0;
+		const fallbackSelection = booking.taxiSelection || { taxi1: 0, taxi2: 0, taxi3: 0 };
+		const fallbackPassengers = Number.parseInt(booking.pasajeros || 1, 10);
+		const selectedPlan = planner
+			? planner.summarizeSelection(fallbackSelection, planner.TAXI_TYPES, fallbackPassengers)
+			: { taxiCost: fallbackTaxi, totalCapacity: 0, spareSeats: 0, formattedCombination: 'Sin taxis' };
+
+		return buildPricing({
+			destino: booking.destino,
+			extras: booking.extras || []
+		}, selectedPlan);
+	}
+
+	function ensureManageModals() {
+		if (document.getElementById('edit-modal')) {
+			return;
+		}
+
+		const editModal = document.createElement('div');
+		editModal.id = 'edit-modal';
+		editModal.className = 'modal fade';
+		editModal.setAttribute('data-bs-backdrop', 'static');
+		editModal.setAttribute('data-bs-keyboard', 'false');
+		editModal.innerHTML = `
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Editar reserva</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						<form id="edit-booking-form">
+							<div class="mb-3">
+								<label for="edit-fecha" class="form-label">Fecha</label>
+								<input type="date" class="form-control" id="edit-fecha">
+							</div>
+							<div class="mb-3">
+								<label for="edit-hora" class="form-label">Hora</label>
+								<input type="time" class="form-control" id="edit-hora">
+							</div>
+							<div class="mb-3">
+								<label for="edit-pasajeros" class="form-label">Numero de pasajeros</label>
+								<input type="number" class="form-control" id="edit-pasajeros" min="1" max="40">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" id="save-edit-btn">Guardar cambios</button>
+					</div>
+				</div>
+			</div>
+		`;
+		document.body.appendChild(editModal);
+
+		const cancelModal = document.createElement('div');
+		cancelModal.id = 'cancel-modal';
+		cancelModal.className = 'modal fade';
+		cancelModal.setAttribute('data-bs-backdrop', 'static');
+		cancelModal.setAttribute('data-bs-keyboard', 'false');
+		cancelModal.innerHTML = `
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Cancelar reserva</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						<p class="mb-0">¿Estas seguro de que deseas cancelar esta reserva? Se abrira tu cliente de correo para solicitar el reembolso a la empresa.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mantener reserva</button>
+						<button type="button" class="btn btn-danger" id="confirm-cancel-btn">Si, cancelar</button>
+					</div>
+				</div>
+			</div>
+		`;
+		document.body.appendChild(cancelModal);
+	}
+
+	window.renderBookingDetailsWithActions = function renderBookingDetailsWithActions(container, booking, bookingIndex) {
+		if (!container) {
+			return;
+		}
+
+		const pricing = bookingPricingSnapshot(booking);
+		const taxiSummary = booking.taxiSummary || { formattedCombination: 'No disponible', totalCapacity: 0, spareSeats: 0, taxiCost: 0 };
+
+		container.innerHTML = `
+			<div class="card border-0 shadow-sm">
+				<div class="card-body">
+					<h3 class="h5 card-title mb-3">Reserva ${escapeHtml(booking.codigo_reserva)}</h3>
+					<p class="mb-1"><strong>Pasajero:</strong> ${escapeHtml(booking.nombre)}</p>
+					<p class="mb-1"><strong>Email:</strong> ${escapeHtml(booking.email)}</p>
+					<p class="mb-1"><strong>Telefono:</strong> ${escapeHtml(booking.telefono)}</p>
+					<p class="mb-1"><strong>Origen:</strong> ${escapeHtml(booking.origen)}</p>
+					<p class="mb-1"><strong>Destino:</strong> ${escapeHtml(booking.destino)}</p>
+					<p class="mb-1"><strong>Fecha:</strong> ${escapeHtml(booking.fecha)}</p>
+					<p class="mb-1"><strong>Hora:</strong> ${escapeHtml(booking.hora)}</p>
+					<p class="mb-1"><strong>Pasajeros:</strong> ${escapeHtml(booking.pasajeros)}</p>
+					<p class="mb-1"><strong>Extras:</strong> ${escapeHtml(formatExtras(booking.extras || []))}</p>
+					<p class="mb-1"><strong>Taxis:</strong> ${escapeHtml(taxiSummary.formattedCombination)}</p>
+					<p class="mb-1"><strong>Trayecto x taxis:</strong> ${money(pricing.tripCost || 0)}</p>
+					<p class="mb-1"><strong>Coste adicional taxis:</strong> ${money(taxiSummary.taxiCost || pricing.taxiAdditionalCost || 0)}</p>
+					<p class="mb-3"><strong>Total:</strong> ${money(pricing.total)}</p>
+					<div class="d-flex gap-2">
+						<button type="button" class="btn btn-warning btn-sm" id="edit-btn">Editar</button>
+						<button type="button" class="btn btn-danger btn-sm" id="cancel-btn">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		`;
+
+		const editBtn = container.querySelector('#edit-btn');
+		const cancelBtn = container.querySelector('#cancel-btn');
+
+		if (editBtn && typeof bootstrap !== 'undefined') {
+			editBtn.addEventListener('click', () => {
+				const modal = new bootstrap.Modal(document.getElementById('edit-modal'));
+				document.getElementById('edit-fecha').value = booking.fecha;
+				document.getElementById('edit-hora').value = booking.hora;
+				document.getElementById('edit-pasajeros').value = booking.pasajeros;
+
+				const saveBtn = document.getElementById('save-edit-btn');
+				saveBtn.onclick = () => {
+					const bookings = getStoredBookings();
+					const updatedPassengers = Number.parseInt(document.getElementById('edit-pasajeros').value || '1', 10);
+					bookings[bookingIndex].fecha = document.getElementById('edit-fecha').value;
+					bookings[bookingIndex].hora = document.getElementById('edit-hora').value;
+					bookings[bookingIndex].pasajeros = updatedPassengers;
+
+					if (planner) {
+						const recommendation = planner.computeBestTaxiCombination(updatedPassengers);
+						bookings[bookingIndex].taxiSelection = recommendation.selection;
+						bookings[bookingIndex].taxiRecommendation = recommendation.selection;
+						bookings[bookingIndex].taxiSummary = {
+							formattedCombination: recommendation.formattedCombination,
+							totalCapacity: recommendation.totalCapacity,
+							spareSeats: recommendation.spareSeats,
+							taxiCost: recommendation.taxiCost,
+							taxiCount: recommendation.taxiCount
+						};
+					}
+
+					bookings[bookingIndex].pricing = bookingPricingSnapshot(bookings[bookingIndex]);
+					saveStoredBookings(bookings);
+					modal.hide();
+					window.location.reload();
+				};
+
+				modal.show();
+			});
+		}
+
+		if (cancelBtn && typeof bootstrap !== 'undefined') {
+			cancelBtn.addEventListener('click', () => {
+				const modal = new bootstrap.Modal(document.getElementById('cancel-modal'));
+				const confirmBtn = document.getElementById('confirm-cancel-btn');
+				confirmBtn.onclick = () => {
+					const bookings = getStoredBookings();
+					const cancelled = bookings[bookingIndex];
+					const refundEmail = cancelled?.email || '';
+					const refundCode = cancelled?.codigo_reserva || '';
+					bookings.splice(bookingIndex, 1);
+					saveStoredBookings(bookings);
+					modal.hide();
+
+					const subject = encodeURIComponent(`Solicitud de reembolso - Reserva ${refundCode}`);
+					const body = encodeURIComponent(
+						`Estimado equipo de Taxi Transfer Tenerife,\n\nSolicito el reembolso correspondiente a la cancelacion de la reserva con codigo ${refundCode}.\n\nCorreo de la reserva: ${refundEmail}\n\nQuedo a la espera de sus instrucciones.\n\nGracias.`
+					);
+					window.location.href = `mailto:contacto@taxitransfertfs.es?subject=${subject}&body=${body}`;
+				};
+				modal.show();
+			});
+		}
+	};
+
 	const themeToggle = document.getElementById('theme-toggle');
 	if (themeToggle) {
 		themeToggle.addEventListener('click', () => {
@@ -376,6 +1145,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	const bookingForm = document.getElementById('booking-form');
 	if (bookingForm) {
 		bookingForm.addEventListener('submit', (event) => {
+			if (window.bookingEnhancedFlowActive) {
+				return;
+			}
+
 			event.preventDefault();
 
 			const formData = {
@@ -449,6 +1222,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 	}
+
+	if (manageForm && typeof bootstrap !== 'undefined') {
+		ensureManageModals();
+	}
+
+	setupBookingFlow();
 
 	applyLanguage();
 	applyTheme();

@@ -49,9 +49,9 @@ function validateBookingForm(data) {
         return { valid: false, errorMsg: "Selecciona una hora válida para el traslado.", invalidField: "hora" };
     }
 
-    // 8) Número de pasajeros dentro de la capacidad permitida (1 a 8).
-    if (!data.pasajeros || data.pasajeros < 1 || data.pasajeros > 8) {
-        return { valid: false, errorMsg: "El número de pasajeros debe estar entre 1 y 8.", invalidField: "pasajeros" };
+    // 8) Número de pasajeros dentro del rango permitido en frontend (1 a 40).
+    if (!data.pasajeros || data.pasajeros < 1 || data.pasajeros > 40) {
+        return { valid: false, errorMsg: "El número de pasajeros debe estar entre 1 y 40.", invalidField: "pasajeros" };
     }
 
     // Si supera todas las comprobaciones, el formulario se considera válido.
