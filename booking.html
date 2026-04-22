@@ -60,24 +60,6 @@
                             <legend class="w-auto px-2 h5 fw-bold" data-i18n="booking.legend">Detalles del Viaje</legend>
 
                             <div class="mb-3">
-                                <label for="nombre" class="form-label fw-semibold"><span data-i18n="booking.fields.name">Nombre Completo</span> <span class="text-danger" aria-hidden="true">*</span></label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. Juan Perez" required aria-required="true" aria-describedby="nombre-help" data-i18n-placeholder="booking.placeholders.name">
-                                <div id="nombre-help" class="form-text" data-i18n="booking.help.name">Introduce tu nombre y apellidos.</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label fw-semibold"><span data-i18n="booking.fields.email">Correo Electronico</span> <span class="text-danger" aria-hidden="true">*</span></label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Ej. juan@email.com" required aria-required="true" aria-describedby="email-help" data-i18n-placeholder="booking.placeholders.email">
-                                <div id="email-help" class="form-text" data-i18n="booking.help.email">Te enviaremos la confirmacion de la reserva a este correo.</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="telefono" class="form-label fw-semibold"><span data-i18n="booking.fields.phone">Telefono de Contacto</span> <span class="text-danger" aria-hidden="true">*</span></label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ej. 600123456" required aria-required="true" aria-describedby="telefono-help" pattern="[0-9]{9,15}" data-i18n-placeholder="booking.placeholders.phone">
-                                <div id="telefono-help" class="form-text" data-i18n="booking.help.phone">Incluye tu numero para avisos importantes (solo digitos, sin espacios).</div>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="origen" class="form-label fw-semibold"><span data-i18n="booking.fields.origin">Lugar de Origen</span> <span class="text-danger" aria-hidden="true">*</span></label>
                                 <select class="form-select" id="origen" name="origen" required aria-required="true">
                                     <option value="" selected disabled data-i18n="booking.origin.placeholder">Selecciona un origen...</option>
@@ -188,6 +170,24 @@
                                 <textarea class="form-control" id="peticiones" name="peticiones" rows="3" placeholder="Ej. Necesito ayuda con el equipaje" aria-describedby="peticiones-help" data-i18n-placeholder="booking.placeholders.requests"></textarea>
                                 <div id="peticiones-help" class="form-text" data-i18n="booking.help.requests">Indica cualquier necesidad especial para tu traslado (opcional).</div>
                             </div>
+
+                            <div class="mb-3 mt-4 pt-2 border-top">
+                                <label for="nombre" class="form-label fw-semibold"><span data-i18n="booking.fields.name">Nombre Completo</span> <span class="text-danger" aria-hidden="true">*</span></label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. Juan Perez" required aria-required="true" aria-describedby="nombre-help" data-i18n-placeholder="booking.placeholders.name">
+                                <div id="nombre-help" class="form-text" data-i18n="booking.help.name">Introduce tu nombre y apellidos.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label fw-semibold"><span data-i18n="booking.fields.email">Correo Electronico</span> <span class="text-danger" aria-hidden="true">*</span></label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Ej. juan@email.com" required aria-required="true" aria-describedby="email-help" data-i18n-placeholder="booking.placeholders.email">
+                                <div id="email-help" class="form-text" data-i18n="booking.help.email">Te enviaremos la confirmacion de la reserva a este correo.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label fw-semibold"><span data-i18n="booking.fields.phone">Telefono de Contacto</span> <span class="text-danger" aria-hidden="true">*</span></label>
+                                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ej. 600123456" required aria-required="true" aria-describedby="telefono-help" pattern="[0-9]{9,15}" data-i18n-placeholder="booking.placeholders.phone">
+                                <div id="telefono-help" class="form-text" data-i18n="booking.help.phone">Incluye tu numero para avisos importantes (solo digitos, sin espacios).</div>
+                            </div>
                         </fieldset>
 
                         <div class="text-center">
@@ -196,8 +196,30 @@
                     </form>
                 </div>
 
-                <aside class="col-lg-4" id="booking-summary">
-                    <!-- Resumen de precio renderizado por main.js -->
+                <aside class="col-lg-4">
+                    <div class="booking-sidebar-stack">
+                        <section id="booking-progress" class="booking-progress mb-3" aria-label="Progreso de reserva">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="booking-progress-title mb-0" data-i18n="booking.progress.title">Progreso de la reserva</p>
+                                <span id="booking-progress-current" class="booking-progress-current">0 de 0 campos obligatorios</span>
+                            </div>
+                            <div class="progress booking-progress-track">
+                                <div
+                                    id="booking-progress-fill"
+                                    class="progress-bar booking-progress-fill"
+                                    role="progressbar"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    aria-valuenow="0"
+                                    style="width: 0%;"
+                                ></div>
+                            </div>
+                        </section>
+
+                        <div id="booking-summary">
+                            <!-- Resumen de precio renderizado por main.js -->
+                        </div>
+                    </div>
                 </aside>
             </div>
         </section>
@@ -266,6 +288,7 @@
                 </a>
             </div>
             <p class="mb-0" data-i18n="footer.rights">&copy; 2026 Taxi Transfer TFS. Todos los derechos reservados.</p>
+            <p class="mb-0 small mt-1" data-i18n="footer.privacy">Consulta nuestra Politica de privacidad.</p>
         </div>
     </footer>
 

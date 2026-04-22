@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			'controls.dark': 'Modo oscuro',
 			'controls.light': 'Modo claro',
 			'footer.rights': '© 2026 Taxi Transfer TFS. Todos los derechos reservados.',
+			'footer.privacy': 'Consulta nuestra Politica de privacidad.',
 			'home.hero.title': 'Traslados desde el Aeropuerto de Tenerife Sur',
 			'home.hero.subtitle': 'Reserva tu taxi oficial al mejor precio. Viaja seguro y sin esperas a cualquier punto de la isla.',
 			'home.hero.cta': 'Reserva tu traslado ahora',
@@ -31,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			'home.destinations.gigantes.text': 'Traslados cómodos hacia los acantilados y puertos del oeste de Tenerife.',
 			'booking.title': 'Solicitud de Reserva',
 			'booking.subtitle': 'Completa el formulario para reservar tu traslado.',
+			'booking.progress.title': 'Progreso de la reserva',
+			'booking.progress.filled': '{done} de {total} campos obligatorios',
 			'booking.legend': 'Detalles del Viaje',
 			'booking.fields.name': 'Nombre Completo',
 			'booking.fields.email': 'Correo Electrónico',
@@ -152,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			'controls.dark': 'Dark mode',
 			'controls.light': 'Light mode',
 			'footer.rights': '© 2026 Taxi Transfer TFS. All rights reserved.',
+			'footer.privacy': 'Read our Privacy Policy.',
 			'home.hero.title': 'Transfers from Tenerife South Airport',
 			'home.hero.subtitle': 'Book your official taxi at the best price. Travel safely and without waiting to any point on the island.',
 			'home.hero.cta': 'Book your transfer now',
@@ -170,6 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			'home.destinations.gigantes.text': 'Comfortable transfers to Tenerife’s west coast cliffs and harbors.',
 			'booking.title': 'Booking Request',
 			'booking.subtitle': 'Complete the form to book your transfer.',
+			'booking.progress.title': 'Booking progress',
+			'booking.progress.filled': '{done} of {total} required fields',
 			'booking.legend': 'Trip Details',
 			'booking.fields.name': 'Full Name',
 			'booking.fields.email': 'Email Address',
@@ -307,6 +313,34 @@ document.addEventListener('DOMContentLoaded', () => {
 		translations
 	};
 
+	function updateBookingProgress(form) {
+		if (!form) {
+			return;
+		}
+
+		const progressFill = document.getElementById('booking-progress-fill');
+		const progressCurrent = document.getElementById('booking-progress-current');
+
+		if (!progressFill && !progressCurrent) {
+			return;
+		}
+
+		const requiredFields = Array.from(form.querySelectorAll('[required]')).filter((field) => !field.disabled);
+		const validFields = requiredFields.filter((field) => field.checkValidity() && String(field.value || '').trim() !== '');
+		const totalFields = requiredFields.length;
+		const doneFields = validFields.length;
+		const progressValue = totalFields > 0 ? Math.round((doneFields / totalFields) * 100) : 0;
+
+		if (progressFill) {
+			progressFill.style.width = `${progressValue}%`;
+			progressFill.setAttribute('aria-valuenow', String(progressValue));
+		}
+
+		if (progressCurrent) {
+			progressCurrent.textContent = t('booking.progress.filled', { done: doneFields, total: totalFields });
+		}
+	}
+
 	function applyTheme() {
 		document.body.classList.toggle('theme-dark', currentTheme === 'dark');
 		const themeButton = document.getElementById('theme-toggle');
@@ -349,6 +383,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		const resultContainer = document.getElementById('resultado-reserva');
 		if (lastRenderedBooking && resultContainer) {
 			renderBookingDetails(resultContainer, lastRenderedBooking);
+		}
+
+		const bookingFormNode = document.getElementById('booking-form');
+		if (bookingFormNode) {
+			updateBookingProgress(bookingFormNode);
 		}
 
 		document.dispatchEvent(new CustomEvent('app:languageChanged', {
@@ -776,7 +815,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			document.getElementById('taxi2Count'),
 			document.getElementById('taxi3Count')
 		];
-
 		function setManualControlsState() {
 			const isManual = getTaxiMode(form) === 'manual';
 			if (manualControls) {
@@ -788,6 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			});
 			renderPreview(form);
+			updateBookingProgress(form);
 		}
 
 		modeInputs.forEach((input) => {
@@ -796,12 +835,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		manualInputs.forEach((input) => {
 			if (input) {
-				input.addEventListener('input', () => renderPreview(form));
+				input.addEventListener('input', () => {
+					renderPreview(form);
+					updateBookingProgress(form);
+				});
 			}
 		});
 
-		form.addEventListener('change', () => renderPreview(form));
-		form.addEventListener('input', () => renderPreview(form));
+		form.addEventListener('change', () => {
+			renderPreview(form);
+			updateBookingProgress(form);
+		});
+		form.addEventListener('input', () => {
+			renderPreview(form);
+			updateBookingProgress(form);
+		});
 
 		form.addEventListener('submit', (event) => {
 			event.preventDefault();
@@ -892,6 +940,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						form.pasajeros.value = '1';
 						form.querySelector('input[name="taxiSelectionMode"][value="auto"]').checked = true;
 						setManualControlsState();
+						updateBookingProgress(form);
 						showInlinePaymentStatus('', true);
 						const statusNode = document.getElementById('inline-payment-status');
 						if (statusNode) {
@@ -932,6 +981,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		setManualControlsState();
 		renderPreview(form);
+		updateBookingProgress(form);
 	}
 
 	function formatExtras(extrasArray) {
