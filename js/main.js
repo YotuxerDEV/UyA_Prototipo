@@ -498,6 +498,66 @@ document.addEventListener('DOMContentLoaded', () => {
 		status.style.borderRadius = '0.5rem';
 	}
 
+	function normalizeComparableText(value) {
+		return String(value || '')
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.trim()
+			.toLowerCase();
+	}
+
+	function setupDestinationCards() {
+		const cards = Array.from(document.querySelectorAll('.destination-card[data-destination]'));
+		if (!cards.length) {
+			return;
+		}
+
+		const goToBooking = (destination) => {
+			const bookingUrl = new URL('booking.html', window.location.href);
+			bookingUrl.searchParams.set('destino', destination);
+			window.location.href = bookingUrl.toString();
+		};
+
+		cards.forEach((card) => {
+			const destination = card.getAttribute('data-destination');
+			if (!destination) {
+				return;
+			}
+
+			card.addEventListener('click', () => {
+				goToBooking(destination);
+			});
+
+			card.addEventListener('keydown', (event) => {
+				if (event.key === 'Enter' || event.key === ' ') {
+					event.preventDefault();
+					goToBooking(destination);
+				}
+			});
+		});
+	}
+
+	function prefillDestinationFromUrl(bookingForm) {
+		if (!bookingForm?.destino) {
+			return;
+		}
+
+		const params = new URLSearchParams(window.location.search);
+		const destinoFromUrl = params.get('destino');
+		if (!destinoFromUrl) {
+			return;
+		}
+
+		const target = normalizeComparableText(destinoFromUrl);
+		const options = Array.from(bookingForm.destino.options);
+		const matched = options.find((option) => normalizeComparableText(option.value) === target);
+
+		if (matched && matched.value) {
+			bookingForm.destino.value = matched.value;
+			bookingForm.destino.dispatchEvent(new Event('change', { bubbles: true }));
+		}
+	}
+
 	const planner = window.taxiPlanner;
 	const pricingCalculator = window.bookingPricing;
 
@@ -1238,6 +1298,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const bookingForm = document.getElementById('booking-form');
 	if (bookingForm) {
+		prefillDestinationFromUrl(bookingForm);
+
 		if (bookingForm.fecha) {
 			bookingForm.fecha.addEventListener('input', () => clearDateTimeValidation(bookingForm));
 		}
@@ -1339,6 +1401,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		ensureManageModals();
 	}
 
+	setupDestinationCards();
 	setupBookingFlow();
 
 	applyLanguage();
