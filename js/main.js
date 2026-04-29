@@ -132,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			'contact.form.message': 'Mensaje',
 			'contact.form.submit': 'Enviar Mensaje',
 			'status.bookingSuccess': 'Reserva realizada con éxito. Tu código es {code}.',
+			'status.bookingPastDateTime': 'La fecha y hora de la reserva deben ser posteriores al momento actual.',
 			'status.storageError': 'No se pudo guardar la reserva.',
 			'status.manageMissing': 'Introduce código y correo.',
 			'status.manageNotFound': 'No se ha encontrado una reserva con esos datos.',
@@ -274,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			'contact.form.message': 'Message',
 			'contact.form.submit': 'Send Message',
 			'status.bookingSuccess': 'Booking created successfully. Your code is {code}.',
+			'status.bookingPastDateTime': 'The booking date and time must be later than the current time.',
 			'status.storageError': 'Could not save booking.',
 			'status.manageMissing': 'Enter booking code and email.',
 			'status.manageNotFound': 'No booking found with those details.',
@@ -588,6 +590,37 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 	}
 
+	function parseBookingDateTime(fecha, hora) {
+		if (!fecha || !hora) {
+			return null;
+		}
+
+		const parsed = new Date(`${fecha}T${hora}`);
+		if (Number.isNaN(parsed.getTime())) {
+			return null;
+		}
+
+		return parsed;
+	}
+
+	function isPastBookingDateTime(fecha, hora, now = new Date()) {
+		const bookingDateTime = parseBookingDateTime(fecha, hora);
+		if (!bookingDateTime) {
+			return false;
+		}
+
+		return bookingDateTime.getTime() < now.getTime();
+	}
+
+	function clearDateTimeValidation(form) {
+		if (form.fecha) {
+			form.fecha.setCustomValidity('');
+		}
+		if (form.hora) {
+			form.hora.setCustomValidity('');
+		}
+	}
+
 	function buildPricing(bookingData, taxiSelection) {
 		const destinationData = destinoPrices[bookingData.destino] || { km: 0, base: 0 };
 		const extrasTotal = bookingData.extras.reduce((sum, extra) => sum + (extrasPrices[extra] || 0), 0);
@@ -854,6 +887,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		form.addEventListener('submit', (event) => {
 			event.preventDefault();
 			event.stopImmediatePropagation();
+			clearDateTimeValidation(form);
 
 			if (!form.checkValidity()) {
 				form.reportValidity();
@@ -861,6 +895,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			const bookingData = getBookingDataFromForm(form);
+			if (isPastBookingDateTime(bookingData.fecha, bookingData.hora)) {
+				const message = t('status.bookingPastDateTime');
+				if (form.hora) {
+					form.hora.setCustomValidity(message);
+					form.hora.reportValidity();
+				}
+				showFormStatus(form, message, false);
+				return;
+			}
+
 			const recommendedPlan = planner.computeBestTaxiCombination(bookingData.pasajeros);
 			const selectedPlan = getTaxiSelection(form, bookingData.pasajeros, recommendedPlan);
 
@@ -1194,12 +1238,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const bookingForm = document.getElementById('booking-form');
 	if (bookingForm) {
+		if (bookingForm.fecha) {
+			bookingForm.fecha.addEventListener('input', () => clearDateTimeValidation(bookingForm));
+		}
+		if (bookingForm.hora) {
+			bookingForm.hora.addEventListener('input', () => clearDateTimeValidation(bookingForm));
+		}
+
 		bookingForm.addEventListener('submit', (event) => {
 			if (window.bookingEnhancedFlowActive) {
 				return;
 			}
 
 			event.preventDefault();
+			clearDateTimeValidation(bookingForm);
 
 			const formData = {
 				nombre: bookingForm.nombre?.value?.trim() || '',
@@ -1213,6 +1265,16 @@ document.addEventListener('DOMContentLoaded', () => {
 				extras: Array.from(bookingForm.querySelectorAll('input[name="extras"]:checked')).map((item) => item.value),
 				peticiones: bookingForm.peticiones?.value?.trim() || ''
 			};
+
+			if (isPastBookingDateTime(formData.fecha, formData.hora)) {
+				const message = t('status.bookingPastDateTime');
+				if (bookingForm.hora) {
+					bookingForm.hora.setCustomValidity(message);
+					bookingForm.hora.reportValidity();
+				}
+				showFormStatus(bookingForm, message, false);
+				return;
+			}
 
 			if (!formData.nombre || !/^\S+@\S+\.\S+$/.test(formData.email) || !formData.origen || !formData.destino || !formData.fecha || !formData.hora) {
 				showFormStatus(bookingForm, t('status.storageError'), false);

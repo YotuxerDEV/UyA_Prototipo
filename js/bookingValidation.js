@@ -3,6 +3,28 @@
 // Módulo de validación aislada para el formulario de reserva.
 // Se exporta para reutilización y para pruebas unitarias con Jest.
 
+function parseBookingDateTime(fecha, hora) {
+    if (!fecha || !hora) {
+        return null;
+    }
+
+    const parsed = new Date(`${fecha}T${hora}`);
+    if (Number.isNaN(parsed.getTime())) {
+        return null;
+    }
+
+    return parsed;
+}
+
+function isPastBookingDateTime(fecha, hora, now = new Date()) {
+    const bookingDateTime = parseBookingDateTime(fecha, hora);
+    if (!bookingDateTime) {
+        return false;
+    }
+
+    return bookingDateTime.getTime() < now.getTime();
+}
+
 /**
  * Valida los datos del formulario de reserva.
  * Comprueba nombre, email, teléfono, origen, destino, fecha, hora y número de pasajeros.
@@ -49,7 +71,16 @@ function validateBookingForm(data) {
         return { valid: false, errorMsg: "Selecciona una hora válida para el traslado.", invalidField: "hora" };
     }
 
-    // 8) Número de pasajeros dentro del rango permitido en frontend (1 a 40).
+    // 8) Fecha y hora de reserva no pueden estar en el pasado.
+    if (isPastBookingDateTime(data.fecha, data.hora)) {
+        return {
+            valid: false,
+            errorMsg: "La fecha y hora de la reserva deben ser posteriores al momento actual.",
+            invalidField: "hora"
+        };
+    }
+
+    // 9) Número de pasajeros dentro del rango permitido en frontend (1 a 40).
     if (!data.pasajeros || data.pasajeros < 1 || data.pasajeros > 40) {
         return { valid: false, errorMsg: "El número de pasajeros debe estar entre 1 y 40.", invalidField: "pasajeros" };
     }
@@ -59,4 +90,4 @@ function validateBookingForm(data) {
 }
 
 // Export CommonJS para consumo en tests y otros módulos del proyecto.
-module.exports = { validateBookingForm };
+module.exports = { validateBookingForm, isPastBookingDateTime };

@@ -3,7 +3,7 @@
 // Cada test verifica un caso de validación del formulario de reserva.
 
 // Importamos la función a testear desde el módulo de validación
-const { validateBookingForm } = require('./bookingValidation');
+const { validateBookingForm, isPastBookingDateTime } = require('./bookingValidation');
 
 // Grupo de tests para validateBookingForm
 describe('validateBookingForm', () => {
@@ -86,6 +86,21 @@ describe('validateBookingForm', () => {
         expect(validateBookingForm(data)).toEqual({ valid: false, errorMsg: 'Selecciona una hora válida para el traslado.', invalidField: 'hora' });
     });
 
+    // Test: fecha/hora anterior al momento actual
+    it('detecta fecha y hora de reserva en el pasado', () => {
+        const data = {
+            ...base(),
+            fecha: '2024-01-01',
+            hora: '09:30'
+        };
+        // Espera error por fecha y hora anteriores al momento actual
+        expect(validateBookingForm(data)).toEqual({
+            valid: false,
+            errorMsg: 'La fecha y hora de la reserva deben ser posteriores al momento actual.',
+            invalidField: 'hora'
+        });
+    });
+
     // Test: pasajeros fuera de rango permitido
     it('detecta pasajeros fuera de rango', () => {
         const data = { ...base(), pasajeros: 0 };
@@ -106,4 +121,16 @@ describe('validateBookingForm', () => {
             pasajeros: 2
         };
     }
+});
+
+describe('isPastBookingDateTime', () => {
+    it('devuelve true cuando fecha/hora es anterior al momento actual', () => {
+        const now = new Date('2026-04-29T12:00:00');
+        expect(isPastBookingDateTime('2026-04-29', '11:59', now)).toBe(true);
+    });
+
+    it('devuelve false cuando fecha/hora es posterior al momento actual', () => {
+        const now = new Date('2026-04-29T12:00:00');
+        expect(isPastBookingDateTime('2026-04-29', '12:01', now)).toBe(false);
+    });
 });
