@@ -145,7 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			'booking.detail.destination': 'Destino',
 			'booking.detail.date': 'Fecha',
 			'booking.detail.time': 'Hora',
-			'booking.detail.passengers': 'Pasajeros'
+			'booking.detail.passengers': 'Pasajeros',
+			'privacy.heading': 'I\'m a teapot',
+			'privacy.lead': 'Lo sentimos, este servidor es una tetera y se niega a preparar café. La Política de Privacidad aún no está disponible.',
+			'privacy.back': 'Volver al inicio',
+			'privacy.contact': 'Contactar',
+			'footer.privacyLink': 'Política de Privacidad'
 		},
 		en: {
 			brand: 'Taxi Transfer Tenerife',
@@ -288,7 +293,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			'booking.detail.destination': 'Destination',
 			'booking.detail.date': 'Date',
 			'booking.detail.time': 'Time',
-			'booking.detail.passengers': 'Passengers'
+			'booking.detail.passengers': 'Passengers',
+			'privacy.heading': 'I\'m a teapot',
+			'privacy.lead': 'Sorry, this server is a teapot and refuses to brew coffee. The Privacy Policy is not available yet.',
+			'privacy.back': 'Back to home',
+			'privacy.contact': 'Contact us',
+			'footer.privacyLink': 'Privacy Policy'
 		}
 	};
 
@@ -729,13 +739,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				<p class="small mb-1">${escapeHtml(t('booking.breakdown.capacityRecommended'))}: ${recommendedPlan.totalCapacity}</p>
 				<p class="small mb-1">${escapeHtml(t('booking.breakdown.spareRecommended'))}: ${recommendedPlan.spareSeats}</p>
 				<p class="small mb-0">${escapeHtml(t('booking.breakdown.taxiCostRecommended'))}: ${money(recommendedPlan.taxiCost)}</p>
-			</div>
-			<div class="taxi-breakdown-card mt-3">
-				<h4 class="taxi-breakdown-heading">${escapeHtml(t('booking.breakdown.active'))}</h4>
-				<p class="small mb-1"><strong>${escapeHtml(t('booking.breakdown.active'))}:</strong> ${escapeHtml(selectedPlan.formattedCombination)}</p>
-				<p class="small mb-1">${escapeHtml(t('booking.breakdown.capacityActive'))}: ${selectedPlan.totalCapacity}</p>
-				<p class="small mb-1">${escapeHtml(t('booking.breakdown.spareActive'))}: ${selectedPlan.spareSeats}</p>
-				<p class="small mb-0">${escapeHtml(t('booking.breakdown.taxiCostActive'))}: ${money(selectedPlan.taxiCost)}</p>
 			</div>
 			${warningHtml}
 		`;
